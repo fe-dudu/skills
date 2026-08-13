@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "skill_name": "frontend-engineering",
+      "skill_path": "../skills/frontend-engineering",
+      "evals": [
+        {
+          "id": 0,
+          "prompt": "Refactor this nested if/else TypeScript function to match the frontend engineering style without changing behavior.",
+          "should_trigger": true,
+          "expected_output": "Uses guard clauses and early returns, removes else and unnecessary nesting, and preserves behavior.",
+          "assertions": [
+            {"type": "contains_any", "values": ["guard clause", "guard clauses", "early return", "early returns"], "text": "Uses flat control flow"},
+            {"type": "contains", "value": "else", "text": "Addresses else branches"},
+            {"type": "contains_any", "values": ["preserve", "behavior", "correctness"], "text": "Preserves behavior"}
+          ]
+        },
+        {
+          "id": 1,
+          "prompt": "Review this React component that copies a filtered list into state with useEffect and adds useMemo and useCallback everywhere.",
+          "should_trigger": true,
+          "expected_output": "Removes derived state and unjustified memoization, and keeps useEffect only for real external side effects.",
+          "assertions": [
+            {"type": "contains_any", "values": ["derived state", "derived data"], "text": "Rejects derived state in an effect"},
+            {"type": "contains", "value": "useMemo", "text": "Evaluates memoization intentionally"},
+            {"type": "contains", "value": "useEffect", "text": "Evaluates effect usage"}
+          ]
+        },
+        {
+          "id": 2,
+          "prompt": "Write a test for a form submission. The test should verify what the user sees and what domain result occurs, not internal function call counts or CSS classes.",
+          "should_trigger": true,
+          "expected_output": "Tests user-visible behavior, accessible queries, and the domain result while avoiding implementation details.",
+          "assertions": [
+            {"type": "contains_any", "values": ["user behavior", "user-visible", "accessible", "role"], "text": "Tests observable behavior"},
+            {"type": "not_contains", "value": "toHaveBeenCalledTimes", "text": "Avoids call-count assertions"},
+            {"type": "not_contains", "value": "CSS class", "text": "Avoids CSS implementation details"}
+          ]
+        },
+        {
+          "id": 3,
+          "prompt": "Implement a Python data migration for a backend-only service with no TypeScript, React, or frontend code.",
+          "should_trigger": false,
+          "expected_output": "The frontend engineering skill should not be required for this unrelated backend task."
+        },
+        {
+          "id": 4,
+          "prompt": "Design error handling for an API request that can fail through network, validation, or domain errors.",
+          "should_trigger": true,
+          "expected_output": "Distinguishes API, validation, domain, network, and unknown errors instead of using one generic error path.",
+          "assertions": [
+            {"type": "contains_any", "values": ["validation", "domain", "network"], "text": "Separates error kinds"},
+            {"type": "contains", "value": "generic", "text": "Rejects generic error handling"}
+          ]
+        },
+        {
+          "id": 5,
+          "prompt": "Review a small TypeScript change that adds a one-use variable only to rename a simple expression, extracts a pass-through helper for one call site, and adds an index.ts re-export to shorten an import.",
+          "should_trigger": true,
+          "expected_output": "Keeps a short simple expression inline, rejects the unnecessary helper or wrapper, and preserves direct imports instead of adding aliases, re-exports, or barrel files.",
+          "assertions": [
+            {"type": "contains_any", "values": ["one-use", "inline", "simple expression"], "text": "Uses the variable extraction boundary"},
+            {"type": "contains_any", "values": ["pass-through", "wrapper", "helper"], "text": "Rejects pass-through abstractions"},
+            {"type": "contains_any", "values": ["barrel", "re-export", "direct import"], "text": "Preserves direct module boundaries"}
+          ]
+        },
+        {
+          "id": 6,
+          "prompt": "Review a React data screen that uses array indexes as keys, mutates props, copies query data into Jotai, and leaves an effect's subscription running after unmount.",
+          "should_trigger": true,
+          "expected_output": "Uses stable domain IDs for keys, treats props as read-only, keeps server state in the query cache, and cleans up the effect subscription.",
+          "assertions": [
+            {"type": "contains_any", "values": ["stable", "domain ID", "key"], "text": "Uses stable React identity"},
+            {"type": "contains_any", "values": ["read-only", "immutable", "mutate props"], "text": "Protects props"},
+            {"type": "contains_any", "values": ["server state", "query cache", "Jotai"], "text": "Separates state ownership"},
+            {"type": "contains_any", "values": ["cleanup", "unsubscribe", "unmount"], "text": "Cleans up effects"}
+          ]
+        },
+        {
+          "id": 7,
+          "prompt": "Design frontend resilience for a request that can be cancelled, race with a newer request, fail with a network error or 500, reconnect later, or fail validation. It also reads API data from localStorage and renders a partial screen.",
+          "should_trigger": true,
+          "expected_output": "Cancels stale work, handles races, retries only eligible transient failures with bounded backoff, refetches after reconnect, validates runtime inputs, and isolates render failures with a fallback.",
+          "assertions": [
+            {"type": "contains_any", "values": ["cancel", "stale", "race"], "text": "Handles request lifecycle"},
+            {"type": "contains_any", "values": ["backoff", "transient", "5xx", "retry"], "text": "Bounds retries"},
+            {"type": "contains_any", "values": ["runtime validation", "validate", "untrusted"], "text": "Validates runtime boundaries"},
+            {"type": "contains_any", "values": ["Error Boundary", "fallback", "isolate"], "text": "Provides failure isolation"}
+          ]
+        },
+        {
+          "id": 8,
+          "prompt": "Write tests for a keyboard-accessible form interaction with focus movement and an accessible name, while also reviewing code that uses dangerouslySetInnerHTML, production console logging, non-null assertions, and unused imports.",
+          "should_trigger": true,
+          "expected_output": "Tests keyboard behavior, focus, and accessible names, and removes or fixes unsafe HTML, production diagnostics, non-null assertions, and unused code.",
+          "assertions": [
+            {"type": "contains_any", "values": ["keyboard", "focus", "accessible name"], "text": "Tests accessibility behavior"},
+            {"type": "contains_any", "values": ["dangerouslySetInnerHTML", "sanitize", "trusted"], "text": "Handles raw HTML safely"},
+            {"type": "contains_any", "values": ["non-null", "! assertion", "narrow"], "text": "Avoids non-null assertions"},
+            {"type": "contains_any", "values": ["unused", "logger", "debugger"], "text": "Cleans production diagnostics and dead code"}
+          ]
+        },
+        {
+          "id": 9,
+          "prompt": "Review a React render that uses response?.items?.map(...) ?? [] because an API contract says the response is an array, but malformed data might be an object. The project has an Error Boundary fallback.",
+          "should_trigger": true,
+          "expected_output": "Validates the external response at the boundary, treats the declared array contract as required, and surfaces contract violations to the Error Boundary instead of hiding them with render-time optional chaining or empty fallbacks.",
+          "assertions": [
+            {"type": "contains_any", "values": ["contract", "boundary", "runtime validation"], "text": "Validates the contract at the boundary"},
+            {"type": "contains_any", "values": ["Error Boundary", "fallback", "throw"], "text": "Surfaces contract failures"},
+            {"type": "contains_any", "values": ["optional chaining", "?.", "?? []", "empty fallback"], "text": "Rejects defensive render masking"}
+          ]
+        },
+        {
+          "id": 10,
+          "prompt": "Review TypeScript and React code that relies on inference for useState and useRef, and leaves function return types implicit. Apply the frontend engineering type rules.",
+          "should_trigger": true,
+          "expected_output": "Adds explicit type arguments to all listed stateful hooks and explicit return types to functions.",
+          "assertions": [
+            {"type": "contains_any", "values": ["useState", "useRef"], "text": "Covers stateful hook types"},
+            {"type": "contains_any", "values": ["return type", "return types", ": number", ": void"], "text": "Covers function return contracts"}
+          ]
+        },
+        {
+          "id": 11,
+          "prompt": "Review an ecommerce route that reads productId from a path, page and sort from the query string, and a tab from the URL hash. The values are used directly as API and UI state without parsing or validation.",
+          "should_trigger": true,
+          "expected_output": "Treats path, query, and hash values as user-controlled state, parses and validates them at the route boundary, applies valid defaults only where allowed, and does not use URL values for authorization.",
+          "assertions": [
+            {"type": "contains_any", "values": ["path", "query", "hash", "URL"], "text": "Covers all URL state sources"},
+            {"type": "contains_any", "values": ["parse", "validate", "runtime"], "text": "Validates URL values"},
+            {"type": "contains_any", "values": ["authorization", "permission", "server"], "text": "Separates URL state from authorization"}
+          ]
+        },
+        {
+          "id": 12,
+          "prompt": "Review a React product screen with nested JSX ternaries for loading, error, ready, and empty states. The repository provides an optional generic SwitchCase component, but a local switch inside JSX is also acceptable.",
+          "should_trigger": true,
+          "expected_output": "Replaces the nested JSX ternaries with either the existing SwitchCase component or a local IIFE switch, choosing the clearer explicit branch strategy without creating an unnecessary helper.",
+          "assertions": [
+            {"type": "contains_any", "values": ["SwitchCase", "switch", "IIFE"], "text": "Uses an explicit JSX branch strategy"},
+            {"type": "contains_any", "values": ["nested ternary", "nested JSX", "ternary"], "text": "Rejects nested JSX ternaries"}
+          ]
+        },
+        {
+          "id": 13,
+          "prompt": "Review a React product screen that uses useEffect to derive filtered products, fetch a product with fetch and setState, relay a wishlist click through a state flag, and reset an editor with an effect when productId changes.",
+          "should_trigger": true,
+          "expected_output": "Removes effect-based derived state, uses the established data-fetching layer, performs user actions in the event handler, and uses a keyed remount for identity-based reset. Keeps effects only for external-system synchronization.",
+          "assertions": [
+            {"type": "contains_any", "values": ["derived state", "derive", "inline"], "text": "Derives render data without an effect"},
+            {"type": "contains_any", "values": ["data-fetching", "query", "caching", "cancellation"], "text": "Uses the data-fetching layer"},
+            {"type": "contains_any", "values": ["event handler", "handler", "direct action"], "text": "Keeps user actions event-driven"},
+            {"type": "contains_any", "values": ["keyed remount", "key", "remount"], "text": "Resets by component identity"}
+          ]
+        },
+        {
+          "id": 14,
+          "prompt": "Review a TypeScript API layer that catches a timeout and throws new Error(`Request failed: ${error.message}`), while the repository has a BaseApiError with statusCode and code fields.",
+          "should_trigger": true,
+          "expected_output": "Uses a typed domain or API error with stable statusCode and code, wraps the original unknown error with Error.cause, avoids message concatenation, and tests both the boundary error and root cause.",
+          "assertions": [
+            {"type": "contains_any", "values": ["cause", "Error.cause", "root cause"], "text": "Preserves the original error"},
+            {"type": "contains_any", "values": ["statusCode", "code", "typed error", "domain error"], "text": "Keeps stable error metadata"},
+            {"type": "contains_any", "values": ["unknown", "narrow", "instanceof"], "text": "Handles caught values safely"},
+            {"type": "contains_any", "values": ["message text", "concatenate", "message parsing", "wrap"], "text": "Avoids lossy error wrapping"}
+          ]
+        },
+        {
+          "id": 15,
+          "prompt": "Design a React product screen for slow networks, transient request failures, and a product API outage. The app has a previously validated cached response and an Error Boundary.",
+          "should_trigger": true,
+          "expected_output": "Shows accessible loading feedback, retries only eligible transient failures with bounded backoff, uses validated stale data only when safe and labels the degraded state, provides actionable error feedback, and isolates render failures with an Error Boundary.",
+          "assertions": [
+            {"type": "contains_any", "values": ["skeleton", "loading", "accessible"], "text": "Handles slow loading visibly"},
+            {"type": "contains_any", "values": ["backoff", "transient", "retry"], "text": "Handles transient request failures"},
+            {"type": "contains_any", "values": ["stale", "cached", "fallback", "degraded"], "text": "Uses safe fallback data"},
+            {"type": "contains_any", "values": ["Error Boundary", "fallback", "error message", "recovery"], "text": "Provides failure isolation and recovery feedback"}
+          ]
+        },
+        {
+          "id": 16,
+          "prompt": "Review a React component where filtering products takes 1.3ms on representative hardware, while the codebase also adds useMemo to every local value and callback without measuring or a referential-stability consumer.",
+          "should_trigger": true,
+          "expected_output": "Treats the 1.3ms calculation as expensive in the context of the 60 FPS frame budget, measures in a production-like environment, and adds useMemo only for that justified calculation while removing speculative memoization elsewhere.",
+          "assertions": [
+            {"type": "contains_any", "values": ["1ms", "1.3ms", "expensive", "16.6ms", "60 FPS"], "text": "Applies the measured cost threshold"},
+            {"type": "contains_any", "values": ["production", "throttl", "measure", "profile"], "text": "Uses representative performance measurement"},
+            {"type": "contains_any", "values": ["speculative", "unnecessary", "remove", "referential stability"], "text": "Rejects blanket memoization"}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+version: '3'
+
+vars:
+  SKILLS_DIR: ./skills
+  LINT_DIR: ./lint
+  EVALS_DIR: ./evals
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  discover:
+    desc: Check that the skills CLI discovers every skill
+    cmds:
+      - DISABLE_TELEMETRY=1 npx --yes skills add . --list
+
+  lint:
+    desc: Run the skill linter on all skills
+    dir: '{{.LINT_DIR}}'
+    cmds:
+      - go build -o skill-lint .
+      - ./skill-lint ../skills
+    sources:
+      - '*.go'
+      - '../skills/**/*.md'
+    generates:
+      - skill-lint
+
+  lint:build:
+    desc: Build the skill linter binary
+    dir: '{{.LINT_DIR}}'
+    cmds:
+      - go build -o skill-lint .
+    sources:
+      - '*.go'
+    generates:
+      - skill-lint
+
+  lint:test:
+    desc: Run skill linter unit tests
+    dir: '{{.LINT_DIR}}'
+    cmds:
+      - go test ./...
+
+  eval:build:
+    desc: Build the static eval grader
+    dir: '{{.EVALS_DIR}}'
+    cmds:
+      - go build -o skill-eval .
+    sources:
+      - '*.go'
+      - 'evals.json'
+    generates:
+      - skill-eval
+
+  eval:grade:
+    desc: Grade a skill-creator workspace with static assertions
+    deps:
+      - eval:build
+    cmds:
+      - '{{.EVALS_DIR}}/skill-eval --workspace {{.CLI_ARGS}}'
+
+  check:
+    desc: Run discovery, linter, and linter tests
+    deps:
+      - discover
+      - lint
+      - lint:test

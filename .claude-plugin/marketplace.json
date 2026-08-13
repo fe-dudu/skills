@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "fe-dudu",
+  "version": "0.1.0",
+  "description": "Frontend engineering Agent Skills for TypeScript and React",
+  "owner": {
+    "name": "fe-dudu"
+  },
+  "plugins": [
+    {
+      "name": "frontend-engineering",
+      "source": "./",
+      "description": "Readable, explicit frontend engineering guidance for TypeScript and React. Covers control flow, naming, functions, TypeScript contracts, collections, React rendering and hooks, state ownership, async resilience, runtime data boundaries, errors, accessibility testing, modules, files, domains, and abstractions.",
+      "version": "0.1.0",
+      "author": {
+        "name": "fe-dudu"
+      },
+      "repository": "https://github.com/fe-dudu/skills",
+      "keywords": [
+        "frontend",
+        "typescript",
+        "react",
+        "react-hooks",
+        "accessibility",
+        "async-resilience",
+        "coding-style",
+        "agent-skills"
+      ],
+      "category": "development",
+      "strict": false
+    }
+  ]
+}
