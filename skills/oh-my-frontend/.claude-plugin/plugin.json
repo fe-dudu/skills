@@ -1,0 +1,8 @@
+{
+  "name": "oh-my-frontend",
+  "version": "0.1.1",
+  "description": "Optional frontend workflow and orchestration for project memory, approval, parallel work, specialist review, and risk-based verification.",
+  "author": {
+    "name": "fe-dudu"
+  }
+}

@@ -1,6 +1,6 @@
 ---
 name: frontend-engineering
-description: Apply a readable, explicit frontend engineering style for TypeScript and React code. Use when creating, reviewing, refactoring, testing, or debugging frontend code, especially changeability, readability, predictability, cohesion, coupling, control flow, state ownership, forms, React effects, accessibility, async resilience, runtime data boundaries, render contracts, modules, files, domains, or abstractions.
+description: Apply standalone TypeScript and React implementation rules for readable, explicit, and predictable frontend code. Use when creating, reviewing, refactoring, testing, or debugging frontend code, especially changeability, cohesion, coupling, control flow, state ownership, forms, React effects, accessibility, async resilience, runtime data boundaries, render contracts, modules, files, domains, or abstractions.
 ---
 
 # Frontend Engineering

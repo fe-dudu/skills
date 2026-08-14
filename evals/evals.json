@@ -191,6 +191,117 @@
           ]
         }
       ]
+    },
+    {
+      "skill_name": "oh-my-frontend",
+      "skill_path": "../skills/oh-my-frontend",
+      "evals": [
+        {
+          "id": 0,
+          "prompt": "Add a new workspace invitation feature to an existing React app. The repository has docs/domain, docs/features, docs/decisions, and docs/architecture. First clarify ambiguous business rules, record approved durable decisions, then split independent UI and API work for parallel agents.",
+          "should_trigger": true,
+          "expected_output": "Reads relevant project memory, asks only consequential questions, records durable decisions, and dispatches independent work with explicit ownership and verification.",
+          "assertions": [
+            {"type": "contains_any", "values": ["ubiquitous", "domain terms", "business rules"], "text": "Uses project domain memory"},
+            {"type": "contains_any", "values": ["decision", "approval", "approve"], "text": "Requires approval for consequential choices"},
+            {"type": "contains_any", "values": ["parallel", "independent", "ownership"], "text": "Splits safe parallel work"}
+          ]
+        },
+        {
+          "id": 1,
+          "prompt": "Change the padding and button color in one existing React component. The intended result is clear and no behavior changes.",
+          "should_trigger": true,
+          "expected_output": "Treats the change as mechanical, avoids an unnecessary interview or task plan, and performs proportional lint, type, or visual verification.",
+          "assertions": [
+            {"type": "contains_any", "values": ["mechanical", "small change", "Level 0"], "text": "Classifies a small change"},
+            {"type": "contains_any", "values": ["no interview", "without an interview", "no question"], "text": "Avoids unnecessary questioning"},
+            {"type": "contains_any", "values": ["visual", "lint", "typecheck"], "text": "Uses proportional verification"}
+          ]
+        },
+        {
+          "id": 2,
+          "prompt": "Split a frontend feature into parallel agents: one changes the invite form, one changes the invite list, and one reviews accessibility. They must not edit the same files, and a shared API type has not been decided yet.",
+          "should_trigger": true,
+          "expected_output": "Blocks or sequences the work until the shared contract is approved, assigns file ownership, and gives each worker a clear brief.",
+          "assertions": [
+            {"type": "contains_any", "values": ["shared contract", "API type", "approved"], "text": "Resolves shared contract before parallel work"},
+            {"type": "contains_any", "values": ["file ownership", "same file", "scope"], "text": "Defines worker boundaries"},
+            {"type": "contains_any", "values": ["worker brief", "acceptance criteria", "verification"], "text": "Provides worker contracts"}
+          ]
+        },
+        {
+          "id": 3,
+          "prompt": "A feature request calls the same concept both Workspace and Project. The code, feature document, and business rule disagree. Decide how the frontend workflow should handle this before implementation.",
+          "should_trigger": true,
+          "expected_output": "Stops on the contradiction, asks for clarification, and updates the approved ubiquitous language and decision record instead of silently choosing a term.",
+          "assertions": [
+            {"type": "contains_any", "values": ["conflict", "contradiction", "stop"], "text": "Surfaces documentation conflict"},
+            {"type": "contains_any", "values": ["ubiquitous", "canonical term", "glossary"], "text": "Protects domain terminology"},
+            {"type": "contains_any", "values": ["approval", "decision", "ask"], "text": "Requires a user decision"}
+          ]
+        },
+        {
+          "id": 4,
+          "prompt": "Review a new React checkout screen in a browser. Verify responsive layout, loading and error states, keyboard navigation, focus, accessible names, and whether the feature Mermaid state diagram still matches the implementation.",
+          "should_trigger": true,
+          "expected_output": "Performs browser and visual verification, checks accessibility behavior, and synchronizes the Mermaid state model when behavior changed.",
+          "assertions": [
+            {"type": "contains_any", "values": ["browser", "viewport", "responsive"], "text": "Checks runtime visual behavior"},
+            {"type": "contains_any", "values": ["keyboard", "focus", "accessible name"], "text": "Checks accessibility behavior"},
+            {"type": "contains_any", "values": ["Mermaid", "state diagram", "synchronize", "update"], "text": "Checks managed diagrams"}
+          ]
+        },
+        {
+          "id": 5,
+          "prompt": "Implement a Python-only backend data migration with no frontend, browser, UI, or React work.",
+          "should_trigger": false,
+          "expected_output": "The frontend workflow skill should not be required for an unrelated backend-only task."
+        },
+        {
+          "id": 6,
+          "prompt": "Review a new custom React modal and icon-only toolbar. Check its semantic roles, accessible names, keyboard operation, focus entry and restoration, Escape handling, background interaction, and whether a focused regression test is needed. Do not add a broad test suite.",
+          "should_trigger": true,
+          "expected_output": "Routes an accessibility review, prefers native dialog/button semantics, checks names and focus behavior at runtime, reports evidence and severity, and adds only a focused test when a concrete regression risk exists.",
+          "assertions": [
+            {"type": "contains_any", "values": ["accessibility", "native", "dialog", "button"], "text": "Uses the accessibility agent and native semantics"},
+            {"type": "contains_any", "values": ["accessible name", "label", "icon-only"], "text": "Checks accessible names"},
+            {"type": "contains_any", "values": ["focus", "Escape", "restoration", "keyboard"], "text": "Checks modal keyboard and focus behavior"},
+            {"type": "contains_any", "values": ["focused", "proportional", "not broad", "regression"], "text": "Keeps testing proportional"}
+          ]
+        },
+        {
+          "id": 7,
+          "prompt": "Change the margin and copy in one existing card. There is no semantic, contrast, focus, or interaction change.",
+          "should_trigger": true,
+          "expected_output": "Treats the change as mechanical and does not dispatch the accessibility agent unless the visual change affects contrast, focus visibility, or meaning.",
+          "assertions": [
+            {"type": "contains_any", "values": ["mechanical", "Level 0", "small change"], "text": "Classifies the change as mechanical"},
+            {"type": "contains_any", "values": ["do not dispatch", "not dispatch", "unnecessary", "no accessibility"], "text": "Avoids unnecessary accessibility work"}
+          ]
+        },
+        {
+          "id": 8,
+          "prompt": "A React checkout intermittently shows an old total after rapid edits. Investigate it without guessing: capture expected and actual behavior, reproduce it, draw the event/state/request flow, compare stale-closure and out-of-order-response hypotheses, then recommend a minimal fix and focused regression test.",
+          "should_trigger": true,
+          "expected_output": "Runs the debugging investigator workflow, records reproduction and environment, uses evidence to distinguish hypotheses, identifies the violated state or async invariant, and keeps the fix and test proportional.",
+          "assertions": [
+            {"type": "contains_any", "values": ["reproduce", "reproduction", "expected", "actual"], "text": "Frames and reproduces the incident"},
+            {"type": "contains_any", "values": ["Mermaid", "flow", "state", "request"], "text": "Maps the state and async flow"},
+            {"type": "contains_any", "values": ["hypothesis", "evidence", "stale closure", "out-of-order", "race"], "text": "Separates competing causes with evidence"},
+            {"type": "contains_any", "values": ["focused", "regression", "minimal", "proportional"], "text": "Keeps the fix and test bounded"}
+          ]
+        },
+        {
+          "id": 9,
+          "prompt": "Fix a single copy typo in a static card. There is no runtime, state, browser, network, or behavior change.",
+          "should_trigger": true,
+          "expected_output": "Treats the change as mechanical and does not dispatch the debugging agent or create a debugging investigation.",
+          "assertions": [
+            {"type": "contains_any", "values": ["mechanical", "Level 0", "small change"], "text": "Classifies the change as mechanical"},
+            {"type": "contains_any", "values": ["do not dispatch", "not dispatch", "unnecessary", "no debugging"], "text": "Avoids unnecessary debugging work"}
+          ]
+        }
+      ]
     }
   ]
 }
