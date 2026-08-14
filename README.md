@@ -69,7 +69,15 @@ npx skills add fe-dudu/skills --skill frontend-engineering
 npx skills add fe-dudu/skills --skill oh-my-frontend
 ```
 
-For Claude Code:
+Install through the Claude Code plugin CLI:
+
+```bash
+claude plugin marketplace add fe-dudu/skills
+claude plugin install frontend-engineering@fe-dudu
+claude plugin install oh-my-frontend@fe-dudu
+```
+
+Or run the plugin commands inside Claude Code:
 
 ```text
 /plugin marketplace add fe-dudu/skills
