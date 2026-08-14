@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "fe-dudu",
-  "version": "0.2.0",
-  "description": "Frontend engineering Agent Skills for TypeScript and React",
+  "version": "0.2.1",
+  "description": "Frontend engineering and workflow orchestration Agent Skills for TypeScript and React",
   "owner": {
     "name": "fe-dudu"
   },
@@ -10,8 +10,8 @@
     {
       "name": "frontend-engineering",
       "source": "./skills/frontend-engineering",
-      "description": "Readable, explicit frontend engineering guidance for TypeScript and React. Covers changeability, readability, predictability, cohesion, coupling, control flow, naming, functions, TypeScript contracts, forms, collections, React rendering and hooks, state ownership, async resilience, runtime data boundaries, errors, accessibility testing, modules, files, domains, and abstractions.",
-      "version": "0.2.0",
+      "description": "Standalone TypeScript and React implementation rules for readable, explicit, and predictable frontend code.",
+      "version": "0.2.1",
       "author": {
         "name": "fe-dudu"
       },
@@ -32,8 +32,8 @@
     {
       "name": "oh-my-frontend",
       "source": "./skills/oh-my-frontend",
-      "description": "Coordinate frontend work through durable project memory, user approval, parallel agents, specialist reviews, browser and visual verification, accessibility, and risk-based testing.",
-      "version": "0.1.0",
+      "description": "Optional frontend workflow and orchestration for project memory, approval, parallel work, specialist review, and risk-based verification.",
+      "version": "0.1.1",
       "author": {
         "name": "fe-dudu"
       },

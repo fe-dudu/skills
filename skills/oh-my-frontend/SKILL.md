@@ -1,12 +1,13 @@
 ---
 name: oh-my-frontend
 description: >
-  Orchestrate frontend work when it needs durable /docs memory, Planner
-  interview, user approval, parallel agents, specialist review, task packets,
-  or cross-feature integration. Trigger on orchestration, /docs, domain
-  language, business rules, feature documentation, architecture decisions,
-  parallel work, multi-agent work, or specialist verification. For standalone
-  TypeScript, React, styling, refactoring, or testing, use frontend-engineering.
+  Optional frontend workflow and orchestration for project memory, approval,
+  parallel work, specialist review, and risk-based verification. Use when work
+  needs durable /docs memory, Planner questions, user approval, task packets,
+  cross-feature integration, domain language, business rules, feature
+  documentation, architecture decisions, or specialist verification. For
+  standalone TypeScript, React, styling, refactoring, or testing, use
+  frontend-engineering.
 ---
 
 # Oh My Frontend

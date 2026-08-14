@@ -1,7 +1,7 @@
 {
   "name": "frontend-engineering",
-  "version": "0.2.0",
-  "description": "Readable, explicit frontend engineering guidance for TypeScript and React.",
+  "version": "0.2.1",
+  "description": "Standalone TypeScript and React implementation rules for readable, explicit, and predictable frontend code.",
   "author": {
     "name": "fe-dudu"
   }

@@ -1,4 +1,4 @@
 interface:
   display_name: "Frontend Engineering"
-  short_description: "Readable frontend coding style rules"
-  default_prompt: "Use $frontend-engineering to apply readable, explicit frontend engineering conventions."
+  short_description: "Readable TypeScript and React implementation rules"
+  default_prompt: "Use $frontend-engineering for readable, explicit, and predictable TypeScript and React implementation."

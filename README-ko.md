@@ -9,12 +9,12 @@ TypeScript, React, 협업형 프론트엔드 작업을 위한 두 계층 Agent S
 
 | 스킬 | 용도 |
 | --- | --- |
-| [frontend-engineering](./skills/frontend-engineering/) | 단독으로 사용하는 TypeScript·React 코드 원칙입니다. |
-| [oh-my-frontend](./skills/oh-my-frontend/) | 선택형 작업 흐름과 에이전트 오케스트레이션 확장입니다. |
+| [frontend-engineering](./skills/frontend-engineering/) | 읽기 쉽고 명확하며 예측 가능한 TypeScript·React 구현 원칙입니다. |
+| [oh-my-frontend](./skills/oh-my-frontend/) | 선택형 프론트엔드 workflow·orchestration 계층입니다. |
 
 <details>
 <summary><strong>frontend-engineering</strong> — 코드 원칙과 구현 품질</summary>
-단독 구현 품질 스킬입니다. Planner, `/docs`, 승인 인터뷰, 병렬 에이전트가 없어도 사용할 수 있습니다.
+읽기 쉽고 명확하며 예측 가능한 TypeScript·React 구현 원칙을 단독으로 적용합니다. Planner, `/docs`, 승인 인터뷰, 병렬 에이전트가 없어도 사용할 수 있습니다.
 
 - TypeScript 계약, narrowing, data boundary를 다룹니다.
 - React rendering, component, hook, context, state ownership을 다룹니다.
@@ -26,7 +26,7 @@ TypeScript, React, 협업형 프론트엔드 작업을 위한 두 계층 Agent S
 
 <details>
 <summary><strong>oh-my-frontend</strong> — 문서·승인·에이전트 오케스트레이션</summary>
-선택형 오케스트레이션 계층입니다. 사람과 에이전트가 함께 프론트엔드 작업을 운영하도록 조율하며, `frontend-engineering`의 코드 원칙을 대체하지 않습니다.
+프로젝트 메모리, 승인, 병렬 작업, specialist review, 위험 기반 검증을 위한 선택형 프론트엔드 workflow·orchestration 계층입니다. 사람과 에이전트의 작업을 조율하며, `frontend-engineering`의 구현 원칙을 대체하지 않습니다.
 
 - Domain language, business rule, feature, decision, architecture를 `/docs`에 장기 메모리로 관리합니다.
 - Planner 대화, 필요한 승인, 범위가 제한된 Worker brief, 안전한 병렬 wave를 관리합니다.

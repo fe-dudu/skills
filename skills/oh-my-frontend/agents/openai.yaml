@@ -1,7 +1,7 @@
 interface:
   display_name: "Oh My Frontend"
-  short_description: "Coordinate frontend memory, agents, and verification"
-  default_prompt: "Use $oh-my-frontend when this frontend task needs project memory, approval, parallel work, or cross-feature coordination."
+  short_description: "Frontend workflow, memory, and agent orchestration"
+  default_prompt: "Use $oh-my-frontend for frontend project memory, approval, parallel work, specialist review, and risk-based verification."
 
 policy:
   allow_implicit_invocation: true

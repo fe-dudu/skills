@@ -12,13 +12,14 @@ loaded from references only when needed.
 
 | Skill | Use it for |
 | --- | --- |
-| [frontend-engineering](./skills/frontend-engineering/) | Standalone TypeScript and React code principles |
-| [oh-my-frontend](./skills/oh-my-frontend/) | Optional workflow and agent orchestration extension |
+| [frontend-engineering](./skills/frontend-engineering/) | Standalone readable, explicit TypeScript and React implementation rules |
+| [oh-my-frontend](./skills/oh-my-frontend/) | Optional frontend workflow and orchestration layer |
 
 <details>
 <summary><strong>frontend-engineering</strong> — Code principles and implementation quality</summary>
-Standalone implementation-quality skill. No Planner, `/docs`, approval interview,
-or parallel agent is required.
+Standalone TypeScript and React implementation rules for readable, explicit, and
+predictable frontend code. No Planner, `/docs`, approval interview, or parallel
+agent is required.
 
 - TypeScript contracts, narrowing, and data boundaries
 - React rendering, components, hooks, context, and state ownership
@@ -30,8 +31,10 @@ Start with [SKILL.md](./skills/frontend-engineering/SKILL.md).
 
 <details>
 <summary><strong>oh-my-frontend</strong> — Documentation, approval, and agent orchestration</summary>
-Optional orchestration layer. It coordinates frontend work as a shared system for
-people and agents; it does not replace `frontend-engineering` code principles.
+Optional frontend workflow and orchestration for project memory, approval,
+parallel work, specialist review, and risk-based verification. It coordinates
+people and agents; it does not replace `frontend-engineering` implementation
+rules.
 
 - Durable `/docs` memory: domain language, business rules, features, decisions, and architecture
 - Planner conversation, focused approval, bounded Worker briefs, and safe parallel waves
