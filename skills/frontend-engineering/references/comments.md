@@ -12,6 +12,6 @@ Comment the reason, not the syntax:
 retryCount += 1;
 
 // Prefer: records an external constraint
-// The payment provider rejects retries after 3 attempts.
+// The external payment provider rejects more than 3 retries.
 const MAX_PAYMENT_RETRIES = 3;
 ```

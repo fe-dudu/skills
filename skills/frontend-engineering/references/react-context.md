@@ -1,22 +1,40 @@
 # React Context
 
 - Do not use React Context as a general-purpose global state store.
-- Use Context for dependency injection, such as a client, configuration, or service boundary.
+- Prefer composition with `children` when an intermediate component only forwards props.
+- Use Context for a dependency, configuration, service, or feature state shared by multiple components within one component subtree. Do not move every prop into Context just to reduce prop passing.
 
-Use Context to provide a dependency, not to hide mutable application state:
+Use Context to inject a dependency from the component that assembles the subtree:
 
 ```tsx
-// Avoid: Context is now an unstructured global state store
-const ProductStoreContext = createContext<Product[]>([]);
+type PaymentGateway = {
+  confirmPayment(input: PaymentInput): Promise<void>;
+};
 
-// Prefer: Context provides a client boundary
-const ProductCatalogContext = createContext<ProductCatalog | null>(null);
+const PaymentGatewayContext = createContext<PaymentGateway | null>(null);
 
-function ProductCatalogProvider({ children }: Props): JSX.Element {
+function CheckoutForm(): JSX.Element {
+  const paymentGateway = useContext(PaymentGatewayContext);
+
+  if (paymentGateway === null) {
+    throw new Error("PaymentGatewayContext is missing");
+  }
+
   return (
-    <ProductCatalogContext.Provider value={productCatalog}>
-      {children}
-    </ProductCatalogContext.Provider>
+    <CheckoutFields
+      onSubmit={(input) => paymentGateway.confirmPayment(input)}
+    />
   );
 }
+
+function App({ paymentGateway }: { paymentGateway: PaymentGateway }): JSX.Element {
+  return (
+    <PaymentGatewayContext.Provider value={paymentGateway}>
+      <CheckoutForm />
+    </PaymentGatewayContext.Provider>
+  );
+}
+
+<App paymentGateway={stripePaymentGateway} />;
+// Test: <App paymentGateway={fakePaymentGateway} />;
 ```

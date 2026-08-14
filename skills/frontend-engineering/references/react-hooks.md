@@ -9,6 +9,8 @@
 - Do not use `useEffect` to create derived state or move event-driven logic out of its event handler.
 - Use `useEffect` for clear cases such as initialization or synchronization with an external system.
 - The effect that starts a timer, subscription, listener, observer, or request owns its cleanup or cancellation.
+- Do not create a broad page hook that owns every query parameter or state value. Split by domain responsibility, consumer boundary, and change reason, not merely by technical category.
+- Keep unrelated values from sharing a subscription or context when an update would re-render consumers that do not use the changed value. Split the owner when the narrower boundary is clearer and materially reduces the update surface.
 
 ## Declaration order
 

@@ -2,12 +2,11 @@
 
 - Throw only for exceptional situations that an Error Boundary is meant to handle.
 - Represent expected business, empty, permission, or validation branches as normal control flow.
-- Use React Query's `throwOnError` only when an exceptional error belongs in an Error Boundary.
 - Distinguish error kinds in `catch`; do not handle every error through one generic path.
 - Model API errors, validation errors, and domain errors as distinct types when their handling differs.
 - Structure errors so their type determines the recovery, message, telemetry, or UI response.
 - Do not collapse network, validation, domain, and unknown failures into one generic error.
-- Treat failed runtime validation and broken API or domain invariants as exceptional contract failures. Do not convert them into an empty state just to keep rendering.
+- Treat broken API or domain invariants as exceptional contract failures. Do not convert them into an empty state just to keep rendering.
 - Use Error Boundaries to isolate render failures and provide a useful fallback. Do not use them to hide expected API or validation states.
 
 ## Error chaining and domain errors

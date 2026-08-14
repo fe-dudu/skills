@@ -3,7 +3,7 @@
 [![skills.sh](https://skills.sh/b/fe-dudu/skills)](https://skills.sh/fe-dudu/skills)
 [![Claude Code Marketplace](https://img.shields.io/badge/Claude%20Code-Marketplace-8A63D2)](./.claude-plugin/marketplace.json)
 
-Readable, explicit frontend engineering guidance for TypeScript and React, packaged as public [Agent Skills](https://agentskills.io/specification). Each skill is an independent directory with a `SKILL.md`; detailed guidance is split into references and loaded only when relevant.
+Readable, explicit frontend engineering guidance for TypeScript and React, focused on code that is easy to change, packaged as public [Agent Skills](https://agentskills.io/specification). Each skill is an independent directory with a `SKILL.md`; detailed guidance is split into references and loaded only when relevant.
 
 ## Installation
 
@@ -99,31 +99,32 @@ The Claude Code badge above links to this repository's custom marketplace catalo
 
 ### [frontend-engineering](./skills/frontend-engineering/)
 
-Readable, explicit frontend engineering conventions for TypeScript and React code.
+Readable, explicit frontend engineering conventions for TypeScript and React code, judged through readability, predictability, cohesion, and coupling.
 
 | Category | What it covers |
 | --- | --- |
-| [Control flow](./skills/frontend-engineering/references/control-flow.md) | Guard clauses, early returns, limited nesting, exhaustive `switch`, and readable ternaries or IIFEs |
-| [Naming and variables](./skills/frontend-engineering/references/naming-and-variables.md) | Domain names, explicit booleans, inline simple values, and justified declarations |
-| [Functions and abstraction](./skills/frontend-engineering/references/functions-and-abstraction.md) | Function declarations, locality, inline handlers, AHA checks, and no pass-through helpers |
-| [TypeScript](./skills/frontend-engineering/references/typescript.md) | Explicit state, ref, and function contracts; safe narrowing; no `any` or non-null assertions |
+| [Control flow](./skills/frontend-engineering/references/control-flow.md) | Guard clauses, early returns, limited nesting, readable ternaries or IIFEs, and left-to-right range checks |
+| [Naming and variables](./skills/frontend-engineering/references/naming-and-variables.md) | Domain names, explicit booleans, contextual constants, and names that reveal wrapper behavior |
+| [Functions and abstraction](./skills/frontend-engineering/references/functions-and-abstraction.md) | Function locality, branch separation, behavior-owning abstractions, AHA checks, and no hidden side effects |
+| [TypeScript](./skills/frontend-engineering/references/typescript.md) | Explicit contracts, safe narrowing, discriminated validation results, and no `any` or non-null assertions |
 | [Collections and data processing](./skills/frontend-engineering/references/collections.md) | Choose collection chains or `for...of` by whole-flow readability and early-exit needs |
-| [React rendering](./skills/frontend-engineering/references/react-rendering.md) | Boolean conditions, stable domain keys, explicit JSX branches, and required render contracts |
+| [React rendering](./skills/frontend-engineering/references/react-rendering.md) | Boolean conditions, stable domain keys, explicit JSX branches, branch-specific components, and required render contracts |
 | [React components](./skills/frontend-engineering/references/react-components.md) | Component locality, stable module constants, cohesive files, and immutable props |
-| [React hooks](./skills/frontend-engineering/references/react-hooks.md) | Measured memoization, effect boundaries, cleanup, dependency locality, and declaration-order conventions |
-| [State ownership](./skills/frontend-engineering/references/state-ownership.md) | Separate server and UI state, avoid duplicate query data, and derive values during render |
-| [React context](./skills/frontend-engineering/references/react-context.md) | Use Context for dependency injection, not as a general-purpose global state store |
-| [Error handling](./skills/frontend-engineering/references/error-handling.md) | Typed error categories, Error Boundaries, React Query `throwOnError`, and error causes |
+| [React hooks](./skills/frontend-engineering/references/react-hooks.md) | Measured memoization, effect boundaries, cleanup, declaration order, and narrow update surfaces |
+| [State ownership](./skills/frontend-engineering/references/state-ownership.md) | Classify server, URL, form, and UI state; avoid duplicate query data; derive values during render |
+| [React context](./skills/frontend-engineering/references/react-context.md) | Prefer composition, then use scoped Context; avoid general-purpose global state |
+| [Forms and validation](./skills/frontend-engineering/references/forms-and-validation.md) | Choose field- or form-level validation by what must be validated and submitted together, independent field rules, reuse, and cross-field dependencies |
+| [Error handling](./skills/frontend-engineering/references/error-handling.md) | Typed error categories, Error Boundaries for render failures, expected error states, and error causes |
 | [Async and resilience](./skills/frontend-engineering/references/async-and-resilience.md) | Cancellation, stale responses, bounded transient retries, graceful degradation, and recovery feedback |
-| [API and runtime data boundaries](./skills/frontend-engineering/references/api-and-data-fetching.md) | Validate API, storage, and input data once at runtime before exposing domain data to render code |
-| [URL state and routes](./skills/frontend-engineering/references/url-state-and-routes.md) | Parse user-controlled path, query, and hash values; validate domain state; keep secrets out of URLs |
+| [API and runtime data boundaries](./skills/frontend-engineering/references/api-and-data-fetching.md) | Define types at established API, persistence, and input boundaries; distinguish failures; keep API hook return contracts consistent |
+| [URL state and routes](./skills/frontend-engineering/references/url-state-and-routes.md) | Handle user-controlled path, query, and hash values through route contracts; keep secrets out of URLs |
 | [Testing and accessibility](./skills/frontend-engineering/references/testing.md) | Test user and domain outcomes, including roles, labels, keyboard access, focus, and accessible names |
 | [Modules and exports](./skills/frontend-engineering/references/modules-and-exports.md) | Named exports, direct imports, existing aliases, and no speculative barrels or re-exports |
 | [Comments](./skills/frontend-engineering/references/comments.md) | Comments for constraints, decisions, and external facts—not syntax or duplicated code intent |
 | [Security and diagnostics](./skills/frontend-engineering/references/security-and-diagnostics.md) | Avoid unsafe HTML, production `console` and `debugger`; use safe project logging |
 | [Dead code and tooling](./skills/frontend-engineering/references/dead-code-and-tooling.md) | Remove confirmed unused code and use Knip or an equivalent only for detection |
-| [File naming and structure](./skills/frontend-engineering/references/file-naming-and-structure.md) | PascalCase components, camelCase TypeScript files, domain names, and responsibility-based files |
-| [Domain structure](./skills/frontend-engineering/references/domain-structure.md) | Organize by domain and vertical, delay sharing, and keep public module boundaries explicit |
+| [File naming and structure](./skills/frontend-engineering/references/file-naming-and-structure.md) | Domain-aware names, responsibility-based files, and colocated domain code |
+| [Domain structure](./skills/frontend-engineering/references/domain-structure.md) | Organize by domain; delay sharing until responsibility and semantics repeat; keep public module boundaries explicit |
 
 ## Development
 
@@ -178,6 +179,7 @@ The repository does not require a runtime npm dependency. `npx skills` is used o
             ├── react-hooks.md
             ├── state-ownership.md
             ├── react-context.md
+            ├── forms-and-validation.md
             ├── error-handling.md
             ├── async-and-resilience.md
             ├── api-and-data-fetching.md
