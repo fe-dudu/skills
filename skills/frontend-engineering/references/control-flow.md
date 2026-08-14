@@ -7,6 +7,7 @@
 - Do not compress a complex branch into one expression.
 - Use an inline ternary only when it is short and easy to read in one pass.
 - Replace a ternary that becomes complex, requires line breaks, or contains nested conditions with explicit control flow or a small IIFE when a value must be computed. JSX branch selection follows the React Rendering reference.
+- Write range checks in the order they are read: `minimum <= value && value <= maximum`.
 
 Avoid nesting and `else` when the branch can finish early:
 
@@ -46,4 +47,18 @@ return isLoading
     : hasOrders
       ? <OrderList />
       : <EmptyState />;
+```
+
+Keep range conditions visually aligned with the domain statement:
+
+```ts
+// Avoid: the middle value must be read twice before the range is clear
+if (score >= minimumScore && score <= maximumScore) {
+  return "passing";
+}
+
+// Prefer
+if (minimumScore <= score && score <= maximumScore) {
+  return "passing";
+}
 ```

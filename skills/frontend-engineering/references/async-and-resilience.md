@@ -2,9 +2,9 @@
 
 ## Fault tolerance
 
-- Aim for graceful degradation: keep safe core flows available when a non-critical dependency fails, make reduced capability or stale data visible, and never pretend failed data is successful.
-- Isolate render and lifecycle failures with an Error Boundary. Handle network and async failures through the established data-fetching and state layers; do not rely on an Error Boundary as the only request error handler.
-- Define recovery states for each remote surface: loading, success, stale or degraded, expected failure, and contract failure.
+- Aim for graceful degradation: keep core user flows available when a non-essential dependency fails, show when a feature is reduced or data is stale, and never present failed data as successful.
+- Isolate exceptions thrown during component rendering or lifecycle work in an Error Boundary. Handle API, network, and async failures as error states in the repository's data-fetching or state layer.
+- Define these states for each UI that displays remote data: loading, success, stale or degraded data, expected failure, and contract failure.
 
 ## Async
 
@@ -13,18 +13,18 @@
 ## Resilience
 
 - Cancel in-flight work when its owner unmounts or its inputs change. Prevent stale responses from overwriting newer state and handle request races explicitly.
-- Retry only transient network failures and eligible 5xx responses. Use bounded exponential backoff, and retry mutations only when their operation is safe or idempotent.
+- Retry only transient network failures and 5xx responses that the project's data-fetching policy marks as retryable. Use bounded exponential backoff, and retry mutations only when their operation is safe or idempotent.
 - Do not blindly retry validation failures, permission failures, or destructive mutations.
-- When the network reconnects, refetch stale server state through the established data-fetching layer and provide recoverable user feedback.
-- On request failure, use previously validated cache, stale data, or an explicit safe fallback only when the domain permits it. Mark the result as stale or degraded; never use fallback data to hide an invalid response contract or silently turn failure into an empty success.
+- When the network reconnects, refetch stale server state through the repository's data-fetching layer and provide recoverable user feedback.
+- On request failure, use cached or stale data, or a fallback, only when the product contract defines that data as usable. Mark the result as stale or degraded; never use fallback data to hide an invalid response contract or silently turn failure into an empty success.
 
 ## Loading and recovery feedback
 
-- Represent remote-data states clearly. Show an accessible spinner or skeleton when waiting is perceptible; delay transient indicators when appropriate to avoid flicker and layout shift.
-- Make feedback state-specific: show an actionable error message for recoverable failures, disable the affected unsafe action while a duplicate mutation would be harmful, and show progress for long-running work.
-- When the network is unavailable, provide recoverable feedback such as a toast or banner. On reconnect, refetch stale server state through the established data-fetching layer.
+- Represent remote-data states clearly. Show an accessible spinner or skeleton when the expected wait is long enough to notice; delay transient indicators to avoid flicker and layout shift.
+- Make feedback state-specific: show an actionable error message for recoverable failures, disable a mutation while an identical mutation is in flight when duplicate submission is unsafe, and show progress for operations that do not complete immediately.
+- When the network is unavailable, provide recoverable feedback such as a toast or banner. On reconnect, refetch stale server state through the repository's data-fetching layer.
 
-Let the established data-fetching layer own cancellation and stale-response handling. Include every request input in its key and pass its cancellation signal:
+Let the repository's data-fetching layer own cancellation and stale-response handling. Include every input that changes the request in its cache key and pass its cancellation signal:
 
 ```ts
 useQuery({

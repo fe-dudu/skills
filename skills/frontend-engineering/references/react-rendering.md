@@ -1,18 +1,20 @@
 # React Rendering
 
 - Prefer `condition && <Component />` for simple conditional rendering.
-- Use `&&` only when the left side is a boolean expression. Compare numeric or string values explicitly to avoid rendering `0` or an empty string.
+- Use `&&` only when the left side is a boolean expression. Compare numeric values explicitly to avoid rendering `0`.
 - Do not write `condition ? <Component /> : null` when `&&` states the intent clearly.
 - Do not put complex nested ternaries in JSX.
 - Choose a readable explicit branch strategy for complex JSX: use the repository's `SwitchCase` when a static case map is clearer, or use a local IIFE with `switch` when branches need statements, ordering, or local values. Neither option is mandatory.
+- When mutually exclusive branches have different effects, permissions, or interaction contracts, split them into branch-specific components instead of interleaving both paths in one component.
+- Do not introduce an `<If>` component only to replace clear native `&&` or ternary syntax. It can hide short-circuit behavior and weaken TypeScript narrowing.
 - Keep rendering code near the variables and handlers it uses.
 - Use a stable domain identifier for React `key`. Do not use an array index unless the list is truly static and cannot be reordered or removed.
 
 ## Required data and fallback
 
 - Do not blanket required render data with optional chaining or nullish fallbacks to hide a broken API or domain contract.
-- After boundary validation, treat required fields as required. Do not make render code support array/object shape alternatives unless the contract genuinely allows that union.
-- When required data violates its contract, throw a typed contract error or let the existing error propagate to the Error Boundary fallback. Do not silently turn it into an empty or missing UI.
+- After the established boundary provides the typed contract, treat required fields as required. Do not make render code support array/object shape alternatives unless the contract genuinely allows that union.
+- When required data violates its contract, let the error propagate to the existing Error Boundary fallback. Do not silently turn it into an empty or missing UI.
 - Use optional chaining and nullish fallbacks when absence is a valid domain state, not as a defense against an impossible state.
 
 Use a stable domain identifier for list keys:
@@ -39,7 +41,7 @@ cartItemCount && <CartBadge count={cartItemCount} />;
 cartItemCount > 0 && <CartBadge count={cartItemCount} />;
 ```
 
-Validate the response before rendering required data:
+Render required data according to its contract:
 
 ```tsx
 // Avoid: a broken contract becomes an empty screen
@@ -47,7 +49,7 @@ return response.products?.map((product) => (
   <ProductCard key={product.id} product={product} />
 )) ?? <EmptyState />;
 
-// Prefer: `products` was validated once at the API boundary
+// Prefer: `products` follows the API boundary's established contract
 return products.map((product) => (
   <ProductCard key={product.id} product={product} />
 ));

@@ -11,6 +11,7 @@
 - Use `null` by default when the domain needs an explicit “no value” state.
 - Reuse the server response type as the frontend domain type when the structures and semantics are the same.
 - Define a separate frontend type only when the UI has a different contract, lifecycle, or meaning.
+- Use discriminated unions for result contracts whose fields depend on a status, such as `{ ok: true } | { ok: false; reason: string }`. Keep functions with the same responsibility on the same return shape so callers do not need to inspect each implementation.
 
 Make hook state contracts explicit for future maintainers:
 
@@ -27,19 +28,35 @@ const [cartItemCount, setCartItemCount] = useState<number>(0);
 const productSearchInputRef = useRef<HTMLInputElement>(null);
 ```
 
-Do not use assertions to bypass a missing runtime check:
+Do not use assertions to hide a contract mismatch:
 
 ```ts
 // Avoid
 const product = response.product as Product;
 
-// Prefer
-const product = parseProduct(response.product);
+// Prefer: use the type defined by the established boundary
+const product: Product = response.product;
 ```
 
 ```ts
 // The return type documents the domain contract for future callers.
 function calculateOrderTotal(order: Order): number {
   return order.lines.reduce((total, line) => total + line.price * line.quantity, 0);
+}
+```
+
+Make validation results safe and predictable:
+
+```ts
+type ValidationResult =
+  | { ok: true }
+  | { ok: false; reason: string };
+
+function validateName(name: string): ValidationResult {
+  if (name.trim() === "") {
+    return { ok: false, reason: "Name is required" };
+  }
+
+  return { ok: true };
 }
 ```

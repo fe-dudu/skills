@@ -1,7 +1,5 @@
 # File Naming and Structure
 
-- Use PascalCase for React component files and match the file name to the component name.
-- Use camelCase for TypeScript files. Name hook files in `useXxx.ts` form, matching the hook function name.
 - Avoid vague names such as `utils.ts`, `helpers.ts`, `common.ts`, or `misc.ts` when the responsibility can be named.
 - Put the domain or responsibility in the file name.
 - Split files by one responsibility, not by an arbitrary line count.
@@ -9,9 +7,15 @@
 - Keep a type near the domain code that uses it. Move it to a separate file only when multiple files genuinely share it.
 
 ```text
-ProductCard.tsx
-ProductDetail.tsx
-useProduct.ts
-useProductStatus.ts
-calculateProductDiscount.ts
+catalog/
+├── ProductCard.tsx
+├── ProductDetail.tsx
+├── useProduct.ts
+├── useProductStatus.ts
+└── calculateProductDiscount.ts
+
+order/
+├── OrderForm.tsx
+├── useOrder.ts
+└── calculateOrderTotal.ts
 ```
