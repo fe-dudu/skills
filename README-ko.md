@@ -61,7 +61,15 @@ npx skills add fe-dudu/skills --skill frontend-engineering
 npx skills add fe-dudu/skills --skill oh-my-frontend
 ```
 
-Claude Code에서는 다음 명령을 사용합니다.
+Claude Code plugin CLI로 설치합니다.
+
+```bash
+claude plugin marketplace add fe-dudu/skills
+claude plugin install frontend-engineering@fe-dudu
+claude plugin install oh-my-frontend@fe-dudu
+```
+
+또는 Claude Code 내부에서 plugin 명령을 실행합니다.
 
 ```text
 /plugin marketplace add fe-dudu/skills
