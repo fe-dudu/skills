@@ -11,6 +11,7 @@ skills-lock.json
 
 # Personal reading notes; never commit
 /docs/frontend-engineering.ko/
+/docs/oh-my-frontend.ko/
 
 # Repository tooling output
 .task

@@ -1,0 +1,8 @@
+{
+  "name": "frontend-engineering",
+  "version": "0.2.0",
+  "description": "Readable, explicit frontend engineering guidance for TypeScript and React.",
+  "author": {
+    "name": "fe-dudu"
+  }
+}

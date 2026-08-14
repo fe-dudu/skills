@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "frontend-engineering",
-      "source": "./",
+      "source": "./skills/frontend-engineering",
       "description": "Readable, explicit frontend engineering guidance for TypeScript and React. Covers changeability, readability, predictability, cohesion, coupling, control flow, naming, functions, TypeScript contracts, forms, collections, React rendering and hooks, state ownership, async resilience, runtime data boundaries, errors, accessibility testing, modules, files, domains, and abstractions.",
       "version": "0.2.0",
       "author": {
@@ -25,6 +25,28 @@
         "async-resilience",
         "coding-style",
         "agent-skills"
+      ],
+      "category": "development",
+      "strict": false
+    },
+    {
+      "name": "oh-my-frontend",
+      "source": "./skills/oh-my-frontend",
+      "description": "Coordinate frontend work through durable project memory, user approval, parallel agents, specialist reviews, browser and visual verification, accessibility, and risk-based testing.",
+      "version": "0.1.0",
+      "author": {
+        "name": "fe-dudu"
+      },
+      "repository": "https://github.com/fe-dudu/skills",
+      "keywords": [
+        "frontend",
+        "project-memory",
+        "documentation",
+        "architecture",
+        "parallel-agents",
+        "visual-qa",
+        "accessibility",
+        "verification"
       ],
       "category": "development",
       "strict": false
