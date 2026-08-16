@@ -11,7 +11,7 @@ Make the rendering boundary explicit for the affected feature:
 CSR | SSR | SSG | streaming | server component | client component | native view
 ```
 
-Follow the framework's current contract. Document why a component or data path runs on the server or client, what must be serialized, and what users see while
+Follow the framework's current contract. Report why a component or data path runs on the server or client, what must be serialized, and what users see while
 the boundary resolves. Do not introduce a rendering strategy only for theoretical optimization.
 
 ## Review dimensions
@@ -35,5 +35,4 @@ Collect only evidence required by the changed risk:
 - before/after value, environment, route, viewport, and test conditions;
 - visual check for fallback, loading, hydration, and layout shift.
 
-Record stable rendering boundaries and budgets in architecture or feature documentation. Record a trade-off when performance changes caching, consistency,
-component ownership, or platform behavior.
+Report stable rendering boundaries, budgets, and trade-offs when they affect caching, consistency, component ownership, or platform behavior.

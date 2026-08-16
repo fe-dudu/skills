@@ -1,122 +1,51 @@
 # Documentation Contract
 
-Use this reference to choose the durable document type, source of truth, and update timing before changing `/docs`.
+Use this reference when durable project memory is in scope or when the repository has no clear documentation convention. Adopt the repository's existing structure before suggesting a new one.
 
-`/docs` is durable project memory. It is not a chat transcript, temporary plan, worker log, or test artifact.
+## Existing documentation
 
-## Contents
+Find the repository's documentation index or canonical source only for Bounded work that already names a contract, and for Consequential or Parallel work. Do not search `/docs` for Direct work. Do not create a documentation tree by implication.
 
-- Structure and task-based reading
-- Feature documents
-- Source of truth
-- Update protocol
+If no durable documentation exists and the change would benefit from it:
 
-## Structure
+1. Tell the user that no project-memory structure was found.
+2. Recommend this minimal structure, adapted to the repository's naming:
 
-```text
-/docs
-  /domain
-    ubiquitous-language.md
-    business-rules.md
-  /features/<feature-name>
-    overview.md
-    user-flow.md
-    state-model.md
-  /decisions
-    YYYY-MM-DD-<feature-name>.md
-  /architecture
-    module-boundaries.md
-```
+   ```text
+   docs/
+     domain/ubiquitous-language.md
+     domain/business-rules.md
+     features/<feature>.md
+     decisions/YYYY-MM-DD-<feature>.md
+     architecture/<boundary>.md
+   ```
 
-Do not create `docs/plans`. Add another document only when it holds durable knowledge that does not belong in an existing document.
+3. Ask whether to add it before creating files, unless the user explicitly requested the documentation.
+4. Create only the documents needed by the durable knowledge that changed.
 
-## Read by task
+## Canonical knowledge
 
-| Task | Read |
+Use one source for each durable fact:
+
+| Knowledge | Typical source |
 | --- | --- |
-| Copy, style, or isolated markup | affected feature document |
-| New feature | feature, domain, decisions governing it, architecture governing the changed boundary |
-| Domain logic | `domain.md` |
-| State change | feature state model, `ui-state.md`, architecture governing state ownership |
-| API or external integration | feature contract, domain rules, data-flow architecture |
-| Shared module | `component-architecture.md`, architecture, affected features |
-| Data fetching or async UI | feature state model, `data-fetching.md`, API/data-flow architecture |
-| Route or navigation change | feature user flow, `routing-and-navigation.md`, route architecture |
-| Performance or rendering change | `performance-and-runtime.md`, architecture, runtime evidence |
-| Bundling or build configuration | `bundling-and-build.md`, `performance-and-runtime.md`, build evidence |
-| Security or privacy change | `security-and-privacy.md`, domain rules, security evidence |
-| Responsive or design-system change | `responsive-design-system.md`, component architecture, visual evidence |
-| Form or multi-step interaction | `forms-and-interaction.md`, feature state model, accessibility |
-| Locale or compatibility change | `internationalization.md` or `compatibility.md`, feature and platform boundary |
-| Telemetry or production diagnostics | `observability.md`, architecture, privacy decision |
-| Parallel work | `parallel-work.md`, then only the references required by each lane |
-| Documentation change | this document and the target document |
+| Term meaning or business invariant | Domain or business-rules document |
+| Current user-visible behavior | Feature document |
+| Rationale and trade-off | Dated decision record |
+| Stable cross-feature boundary | Architecture document |
 
-If documents conflict, stop and report the conflict. Do not silently choose a definition.
+These are categories, not mandatory paths. Link to the canonical source instead of copying rules into every document.
 
 ## Feature documents
 
-For a complete feature-document example with user flow and state diagrams, see `example-documentation.md` from the parent `SKILL.md` reference list.
-
-Feature documentation describes current user-visible behavior, not temporary implementation steps. Use headings only for substantial sections that need
-independent navigation. Keep short fields as bold labels to avoid unnecessary spacing and visual separators:
-
-```md
-# Feature name
-
-**Purpose:** <why this feature exists>
-**Scope:** <included behavior>
-**Non-goals:** <explicit exclusions>
-
-**User-visible behavior:**
-- <observable behavior>
-
-**Acceptance criteria:**
-- <testable condition>
-
-**User flow:**
-<Mermaid flow when it reduces ambiguity>
-
-**State model:**
-<Mermaid state diagram when states or transitions matter>
-
-**Related:** <domain, decisions, and architecture links>
-```
-
-Use Mermaid when it makes a flow, state transition, ownership boundary, or dependency easier to understand. Keep permissions, exceptions, invariants, and
-rationale in Markdown; Mermaid is not the only source of business rules.
-
-## Source of truth
-
-Use one canonical location for each kind of knowledge:
-
-| Knowledge | Canonical document |
-| --- | --- |
-| Meaning of a term | `docs/domain/ubiquitous-language.md` |
-| Invariant or permission | `docs/domain/business-rules.md` |
-| Current user-visible behavior | `docs/features/<feature-name>/` |
-| Rationale and trade-off | `docs/decisions/YYYY-MM-DD-<feature-name>.md` |
-| Stable cross-feature boundary | `docs/architecture/` |
-
-Link to the canonical document instead of copying a rule into a feature, decision, or task report. Temporary implementation notes belong in the task packet and
-must not become feature memory by accident.
+Describe current user-visible behavior, scope, non-goals, acceptance criteria, and related canonical sources. Use the optional documentation example from `SKILL.md` only when creating or reviewing a complete feature document. Update an existing flow or state diagram only when a durable model changed and the diagram remains useful. Create a new diagram only when the user explicitly requests durable documentation or the approved document requires a new model. Start with one feature document; split it only when the sections have independent ownership or navigation value.
 
 ## Update protocol
 
-1. Identify the affected document type.
-2. Read the existing document before writing.
-3. Preserve canonical terms and existing links.
-4. Update affected Mermaid source when behavior or structure changes.
-5. Add links to features, decisions, and architecture affected by the change.
-6. Report unresolved contradictions instead of hiding them.
+1. Read the existing canonical document before changing it.
+2. Preserve project terminology and links.
+3. Promote only durable terms, rules, behavior, rationale, or boundaries.
+4. Update an existing Mermaid diagram only when a durable flow, state model, dependency, or ownership boundary changed and the diagram remains useful.
+5. If canonical documents conflict, stop the implementation path and surface the conflict to the main agent or user; never choose a source silently.
 
-Promote information only when it becomes durable:
-
-```text
-conversation insight → approved document or decision
-worker assumption     → worker report unless durable
-task detail           → temporary task packet
-verification result   → evidence/report, not project memory
-```
-
-The Coordinator owns shared `/docs` updates. Workers report documentation impact and proposed changes; they do not silently rewrite shared memory.
+Task details, worker assumptions, temporary plans, command output, and verification results belong in task state or reports. The main agent owns shared documentation updates; workers report proposed impact.

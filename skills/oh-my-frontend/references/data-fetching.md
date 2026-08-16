@@ -45,5 +45,4 @@ Check every listed case that the feature supports. Mark unsupported cases as `N/
 - duplicate submission, optimistic failure, rollback, pagination boundary, and stale cache;
 - browser network evidence or request logs for critical flows.
 
-Record durable API behavior, business rules, and user-visible states in the feature document. Record cache or consistency trade-offs in a dated decision when
-they affect multiple features.
+Report durable API behavior, business rules, user-visible states, and cache or consistency trade-offs when they affect future work.

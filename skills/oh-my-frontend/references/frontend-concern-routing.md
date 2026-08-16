@@ -1,47 +1,44 @@
 # Frontend Concern Routing
 
-Use this reference for Level 1, Level 2, or parallel work. Classify the task by risk, select the minimum matching references, and define evidence before
-creating workers. Skip it for Level 0 mechanical work unless the risk changes. These are coordination contracts, not framework tutorials. Use
-`frontend-engineering` and framework-specific skills for implementation details. Do not copy code-style rules into this skill.
+Use for Bounded, Consequential, or Parallel work. Choose one primary concern, load its reference, and define the evidence before assigning work. Skip routing for Direct work unless the changed risk is higher than the description suggests.
 
 ## Routing table
 
-| Trigger | Read | Primary owner | Specialist review | Evidence |
-| --- | --- | --- | --- | --- |
-| API, query, cache, mutation, retry | `data-fetching.md` | implementer | review or debugging | state and network-flow checks |
-| route, URL, redirect, deep link, back/forward | `routing-and-navigation.md` | implementer | visual or accessibility | navigation-flow checks |
-| slow, bundle, hydration, rendering, layout shift | `performance-and-runtime.md` | implementer | performance | before/after measurements |
-| entry point, loader, plugin, chunk, tree shaking, source map, HMR, bundler, build config | `bundling-and-build.md` | implementer or toolchain | performance or debugging | build graph, output, and runtime evidence |
-| auth, token, HTML, redirect, PII, third-party script | `security-and-privacy.md` | implementer | security | threat and abuse-case evidence |
-| breakpoint, theme, token, density, viewport | `responsive-design-system.md` | implementer | visual and accessibility | viewport and state matrix |
-| form, draft, validation, submit, autosave | `forms-and-interaction.md` | implementer | accessibility or review | keyboard and recovery flow |
-| locale, translation, timezone, RTL | `internationalization.md` | implementer | visual and review | locale matrix |
-| browser, device, WebView, touch, feature support | `compatibility.md` | implementer | compatibility or visual | support-matrix evidence |
-| error tracking, metric, event, release | `observability.md` | implementer | security or review | emitted-event and privacy checks |
-| CSR, SSR, SSG, RSC, hydration, native/web split | `platform-boundaries.md` and `performance-and-runtime.md` | architect or implementer | review | boundary and runtime evidence |
-
-Read all matching rows. A concern can be secondary even when it does not own code. Do not add a specialist worker merely because a row matches; add one when the
-risk, user impact, or independent review value justifies the coordination cost.
+| Trigger | Primary reference | Evidence |
+| --- | --- | --- |
+| API, query, cache, mutation, retry | `data-fetching.md` | request states, cache, and network-flow checks |
+| route, URL, redirect, deep link, back/forward | `routing-and-navigation.md` | direct-entry and navigation-flow checks |
+| slow UI, bundle, hydration, rendering, layout shift | `performance-and-runtime.md` | before/after measurement |
+| loader, plugin, chunk, tree shaking, source map, HMR, build config | `bundling-and-build.md` | build graph, output, and runtime evidence |
+| auth, token, HTML, redirect, PII, third-party script | `security-and-privacy.md` | threat and abuse-case evidence |
+| breakpoint, theme, token, density, viewport | `responsive-design-system.md` | viewport and state matrix |
+| form, draft, validation, submit, autosave | `forms-and-interaction.md` | keyboard and recovery flow |
+| locale, translation, timezone, RTL | `internationalization.md` | locale matrix |
+| browser, device, WebView, touch, feature support | `compatibility.md` | support-matrix evidence |
+| error tracking, metric, event, release | `observability.md` | emitted-event and privacy checks |
+| CSR, SSR, SSG, RSC, hydration, native/web split | `platform-boundaries.md` | boundary evidence; read `performance-and-runtime.md` only if a performance acceptance criterion changes |
+| shared module, package boundary, dependency direction, ownership boundary | `architecture.md` | boundary and dependency evidence |
+| shared component, design-system primitive, feature component boundary | `component-architecture.md` | rendered element, ownership, and consumer evidence |
+| domain term, invariant, permission rule, limit, status meaning | `domain.md` | glossary, rule, and enforcement evidence |
+| loading, empty, error, pending, stale, success, or user-observable state | `ui-state.md` | state matrix and transition evidence |
+| bug, regression, failed test/build, runtime error, flaky or intermittent behavior | `debugging-agent.md` | reproduction, discriminating check, root cause, and regression evidence |
 
 ## Routing rules
 
-- Choose one primary owner. Specialist workers are read-only reviewers by default; grant write access only when the task packet names their files and change scope.
-- Resolve shared contracts before dispatching lanes that depend on them.
-- Keep data, route, and UI-state contracts together when changing the same user flow.
-- Keep design tokens, global styles, route registries, package manifests, and `/docs` single-owner unless isolated worktrees are guaranteed.
-- Record the required evidence in the task packet, not only in a worker prompt.
+- Pick one primary owner and one primary reference.
+- Read a secondary reference only when it changes acceptance criteria or evidence.
+- Do not create a specialist worker merely because a row matches. Use one when independent review or a specialized tool adds value.
+- Keep data, route, and UI-state contracts together when they belong to one flow.
+- Keep manifests, route registries, package files, design tokens, shared boundaries, and project documentation single-owner. Worktrees isolate disjoint files; they do not create multiple owners for a shared contract.
 - A typecheck or lint result does not prove visual, runtime, performance, accessibility, or security correctness.
-- If a concern changes a business rule, domain term, public contract, or stable boundary, update the `/docs` source that defines it and add or update the decision record.
+- If no row matches, use `frontend-engineering`, the framework-specific skill, and the repository's normal checks.
 
-## Minimal concern handoff
+Routing precedence:
 
-Every specialist report answers:
+- Use `security-and-privacy.md` as primary when a redirect, route guard, token, or user data change has an abuse or authorization concern; use routing as secondary only when navigation behavior also changes.
+- Use `bundling-and-build.md` as primary for build, loader, plugin, HMR, or source-map failures; use `debugging-agent.md` for the investigation workflow.
+- Use `platform-boundaries.md` as primary when the implementation or shared behavior differs by platform; use `performance-and-runtime.md` as secondary only when a performance acceptance criterion changes.
+- Use `responsive-design-system.md` as primary for viewport, theme, token, or responsive-branch changes; use `performance-and-runtime.md` as secondary only when a measured performance budget changes.
+- Use `debugging-agent.md` for diagnosis regardless of whether a debugging worker is created.
 
-```text
-Risk reviewed:
-Evidence collected:
-Failures or gaps:
-Required fix:
-Can the lane be closed:
-Documentation impact:
-```
+Specialist lanes use the unified worker report defined in `parallel-work.md`; add concern-specific evidence there instead of creating another report format.

@@ -49,7 +49,7 @@ Use a loader or transform for a module-local conversion. Use a plugin for build-
 2. check whether an existing rule or framework already handles it;
 3. confirm ordering, scope, caching, and development/production behavior;
 4. verify the generated output and warnings;
-5. document a stable rule or decision if the boundary affects future features.
+5. report a stable rule or decision if the boundary affects future features.
 
 Keep rules narrow. Do not apply a costly transform to dependencies or unrelated assets. Do not hide a configuration error with a broad catch-all loader.
 

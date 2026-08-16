@@ -7,20 +7,22 @@ Static assertion grader for skill-creator eval workspaces. It applies the assert
 Prerequisites: [Task](https://taskfile.dev) and Go 1.25+.
 
 ```bash
-task eval:grade -- /path/to/workspace
-task eval:grade -- /path/to/workspace/iteration-1
+task eval:grade -- --skill oh-my-frontend --workspace /path/to/workspace
+task eval:grade -- --skill frontend-engineering --workspace /path/to/workspace/iteration-1
+task eval:test
 ```
 
 ## Adding cases
 
-Add cases under the `frontend-engineering` entry in `evals.json`.
+Add cases under the corresponding skill entry in `evals.json`. Eval IDs are
+scoped to a skill, so `--skill` is required when grading. The grader rejects
+workspace `eval-*` directories that are not defined for the selected skill.
 
 | Field | Required | Meaning |
 | --- | --- | --- |
 | `id` | yes | Numeric ID matching `eval-N` in the evaluation workspace |
 | `prompt` | yes | User-like task prompt |
 | `should_trigger` | no | Whether the skill should activate; defaults to `true` |
-| `expected_output` | no | Human-readable expected behavior |
 | `assertions` | no | Static checks against generated output |
 
 Supported assertions:

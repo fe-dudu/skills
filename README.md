@@ -4,8 +4,10 @@
 [![Claude Code Marketplace](https://img.shields.io/badge/Claude%20Code-Marketplace-8A63D2)](./.claude-plugin/marketplace.json)
 
 Two-layer Agent Skills for TypeScript, React, and coordinated frontend work.
-Use `frontend-engineering` alone for code principles, or add `oh-my-frontend` as
-an orchestration layer. Each skill has a short `SKILL.md`; detailed guidance is
+Use `oh-my-frontend` as the lightweight triage entry for frontend tasks. It may
+classify mechanical work as Level 0 and adds memory, approval, workers, or
+specialist evidence only when risk requires them. Use `frontend-engineering` for
+implementation rules. Each skill has a short `SKILL.md`; detailed guidance is
 loaded from references only when needed.
 
 ## Skills
@@ -13,7 +15,7 @@ loaded from references only when needed.
 | Skill | Use it for |
 | --- | --- |
 | [frontend-engineering](./skills/frontend-engineering/) | Standalone readable, explicit TypeScript and React implementation rules |
-| [oh-my-frontend](./skills/oh-my-frontend/) | Optional frontend workflow and orchestration layer |
+| [oh-my-frontend](./skills/oh-my-frontend/) | Frontend triage and risk-based orchestration layer |
 
 <details>
 <summary><strong>frontend-engineering</strong> — Code principles and implementation quality</summary>
@@ -31,18 +33,19 @@ Start with [SKILL.md](./skills/frontend-engineering/SKILL.md).
 
 <details>
 <summary><strong>oh-my-frontend</strong> — Documentation, approval, and agent orchestration</summary>
-Optional frontend workflow and orchestration for project memory, approval,
-parallel work, specialist review, and risk-based verification. It coordinates
-people and agents; it does not replace `frontend-engineering` implementation
-rules.
+Frontend task triage and risk-based orchestration for project memory, approval,
+parallel work, specialist review, and verification. It may enter any frontend
+task, exits clear mechanical work at Level 0, and adds workflow only when the
+changed risk requires it. It does not replace `frontend-engineering`
+implementation rules.
 
-- Durable `/docs` memory: domain language, business rules, features, decisions, and architecture
-- Planner conversation, focused approval, bounded Worker briefs, and safe parallel waves
+- Repository-canonical project memory: domain language, business rules, features, decisions, and architecture; recommend a minimal structure only when no durable convention exists
+- Batched blocking questions, focused approval, bounded Worker briefs, and safe parallel lanes
 - Component architecture, UI state, browser/visual verification, accessibility, and debugging
 - Data fetching, routing, performance, security, responsive UI, forms, i18n, compatibility, and observability routing
 - Risk-based testing without mandatory TDD or excessive test code
 
-Korean mirrors under `docs/*ko/` are local reading notes and are not published or included in installed packages.
+Korean mirrors under `docs/*.ko/` are local reading notes and are not published or included in installed packages.
 
 Start with [SKILL.md](./skills/oh-my-frontend/SKILL.md).
 </details>

@@ -25,18 +25,10 @@ Check the affected inputs and boundaries:
 
 ## Review and evidence
 
-Security workers are read-only by default. They report:
-
-```text
-Asset or boundary:
-Threat or abuse case:
-Existing control:
-Gap and severity:
-Recommended fix:
-Verification:
-```
+Security workers are read-only by default. Capture the asset or boundary, threat or abuse case, existing control, gap and severity, recommended fix, and
+verification as evidence inside the unified report in `parallel-work.md`; do not create a second worker-report format.
 
 Verify every listed negative case that touches a changed boundary: injection, unsafe redirect, unauthorized route or mutation, expired session, leaked data in logs
 or URLs, and third-party failure. Mark non-applicable cases as `N/A` in the report. Use static tools as support, not as proof of runtime safety.
 
-Record durable permission rules, privacy constraints, and trust-boundary decisions in domain, architecture, or decision documents.
+Report durable permission rules, privacy constraints, and trust-boundary decisions.

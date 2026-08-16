@@ -30,5 +30,6 @@ content: short | long | translated
 Verify no clipped content, accidental horizontal scroll, unreadable contrast, hidden focus, layout shift, or unreachable action. Compare against the approved
 design or feature document and record intentional deviations.
 
-Visual review is evidence, not a substitute for semantics, keyboard behavior, or focused tests. Update Mermaid ownership or component diagrams when boundaries
-change.
+Visual review is evidence, not a substitute for semantics, keyboard behavior, or focused tests.
+
+Report durable ownership or component-boundary impact and whether an existing Mermaid diagram is stale under the skill's durable-diagram rules.

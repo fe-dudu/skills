@@ -1,6 +1,6 @@
 # Member invitation
 
-<!-- Example only. Replace terms, behavior, and links with approved project knowledge. -->
+<!-- Example only. Replace terms, behavior, paths, and links with approved project knowledge and the project's existing documentation structure. The paths below are placeholders, not a default docs convention. -->
 
 **Purpose:** Allow a Workspace Owner to invite a member by email.
 
@@ -47,9 +47,9 @@ stateDiagram-v2
 ```
 
 **Related:**
-- Domain: `docs/domain/ubiquitous-language.md`
-- Rules: `docs/domain/business-rules.md`
-- Decision: `docs/decisions/2026-08-14-member-invitation.md`
-- Architecture: `docs/architecture/module-boundaries.md`
+- Domain: `<project-canonical-domain-source>`
+- Rules: `<project-canonical-rules-source>`
+- Decision: `<project-canonical-decision-source>`
+- Architecture: `<project-canonical-architecture-source>`
 
 <!-- Keep current behavior and acceptance criteria here. Put durable rules in the domain document, rationale in a decision record, and temporary execution details in the task packet. -->

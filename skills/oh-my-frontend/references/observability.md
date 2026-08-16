@@ -21,4 +21,5 @@ Trigger every listed success, failure, retry, offline, permission, and boundary 
 Inspect emitted payloads in a safe environment. Check deduplication,
 sampling, source-map resolution, release identity, consent behavior, and that telemetry failure does not break the user flow.
 
-Record stable event contracts and privacy rules in architecture or decision documents. Keep temporary debugging logs out of production code.
+Report stable event contracts and privacy rules.
+Keep temporary debugging logs out of production code.
