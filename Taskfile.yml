@@ -1,7 +1,6 @@
 version: '3'
 
 vars:
-  SKILLS_DIR: ./skills
   LINT_DIR: ./lint
   EVALS_DIR: ./evals
 
@@ -24,6 +23,8 @@ tasks:
       - ./skill-lint ../skills
     sources:
       - '*.go'
+      - 'go.mod'
+      - 'go.sum'
       - '../skills/**/*.md'
     generates:
       - skill-lint
@@ -35,6 +36,8 @@ tasks:
       - go build -o skill-lint .
     sources:
       - '*.go'
+      - 'go.mod'
+      - 'go.sum'
     generates:
       - skill-lint
 
@@ -51,16 +54,23 @@ tasks:
       - go build -o skill-eval .
     sources:
       - '*.go'
+      - 'go.mod'
       - 'evals.json'
     generates:
       - skill-eval
+
+  eval:test:
+    desc: Run static eval grader unit tests
+    dir: '{{.EVALS_DIR}}'
+    cmds:
+      - go test ./...
 
   eval:grade:
     desc: Grade a skill-creator workspace with static assertions
     deps:
       - eval:build
     cmds:
-      - '{{.EVALS_DIR}}/skill-eval --workspace {{.CLI_ARGS}}'
+      - '{{.EVALS_DIR}}/skill-eval {{.CLI_ARGS}}'
 
   check:
     desc: Run discovery, linter, and linter tests

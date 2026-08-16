@@ -22,4 +22,4 @@ Check keyboard-only completion, labels, focus order, error association, correcti
 server rejection, duplicate click, expired session, and partial failure. Add focused tests only for new or regression-prone validation and state transitions; do
 not generate tests for every visual arrangement.
 
-Record durable form rules and user-visible behavior in the feature document. Record API or validation ownership decisions when client and server rules differ.
+Report durable form rules, user-visible behavior, and client/server ownership decisions.

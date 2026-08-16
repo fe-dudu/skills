@@ -1,33 +1,19 @@
-# Debugging Agent
+# Debugging Investigation
 
-Use this role for frontend bugs, failed builds or tests, browser/runtime errors, regressions, intermittent behavior, performance or memory problems, state and
-async races, network failures, and toolchain issues.
+Use this reference for frontend bugs, failed builds or tests, browser/runtime errors, regressions, intermittent behavior, performance or memory problems, state
+and async races, network failures, and toolchain issues. Reading it does not create a debugging worker.
 
 ## Contents
 
-- Modes and ownership
 - Core rules
 - Workflow
 - Frontend-specific checklists
 - Fix rules
 - Verification and regression scope
-- Prevention and durable memory
-- Report format
+- Bug report format
 
-The debugging agent follows evidence. It does not guess from a stack trace, hide an error with a fallback, or make a broad refactor before the failure is
-understood.
-
-## Modes and ownership
-
-Use one of two modes:
-
-```text
-investigator  reproduce, narrow, instrument, and report; no code edits unless the Coordinator explicitly changes the role to fixer
-fixer         implement the approved minimal fix in explicitly owned files
-```
-
-The investigator reports the suspected root cause and a discriminating check before the fixer changes implementation. A fixer must not edit files owned by another
-worker. If reproduction or the shared contract is unresolved, remain `BLOCKED` and ask the Coordinator for the missing decision or input.
+The debugging reference follows evidence. It does not guess from a stack trace, hide an error with a fallback, or make a broad refactor before the failure is
+understood. Worker roles, ownership, and fixer handoffs are defined by `SKILL.md` and `parallel-work.md`.
 
 ## Core rules
 
@@ -40,6 +26,9 @@ worker. If reproduction or the shared contract is unresolved, remain `BLOCKED` a
 7. Fix the root cause at the correct boundary. Do not silence symptoms with `as`, non-null assertions, broad `catch`, `|| {}`, or `?? []` when the data contract
    is broken.
 8. Verify the original failure, the fixed path, and the nearest regression risks. Remove temporary instrumentation before completion.
+
+Do not close an intermittent failure by blindly rerunning it or extending timeouts. Reproduce it with bounded repetition, identify the unstable boundary, or
+report the condition as unverified.
 
 ## Workflow
 
@@ -127,7 +116,8 @@ transition. Bound the automation and clean up timers or listeners.
 
 ### 4. Draw the work map
 
-For multi-step UI, async, or state bugs, write a Mermaid diagram in the task report or affected feature document when the flow is durable:
+For a multi-step UI, async, or state bug, update an existing canonical Mermaid diagram only when a durable flow or state transition changed and the diagram
+remains useful. Do not create a diagram for a local bug investigation:
 
 ```mermaid
 flowchart LR
@@ -259,7 +249,7 @@ Run checks in this order:
 Do not force a large test suite or TDD loop for a trivial static issue. Add a focused regression test when the bug involves a reproducible behavior, data
 boundary, state transition, lifecycle, keyboard interaction, or previously unstable path.
 
-## Prevention and durable memory
+## Bug report format
 
 Use this bug report format:
 
@@ -278,31 +268,8 @@ Regression test:
 Prevention:
 ```
 
-Put the report in the task result, issue, or PR unless the project has a durable bug archive. Promote only durable knowledge to `/docs`:
+Put the report in the task result, issue, or PR unless the project has a durable bug archive. If the fix reveals durable product, domain, architecture, or
+debugging knowledge, report the documentation impact through `documentation.md`; do not silently mutate shared documentation from a parallel worker.
 
-- changed user behavior → feature document
-- new business/domain invariant → domain or business-rules document
-- stable boundary or reusable debugging rule → architecture document
-- rationale or tradeoff → dated decision document
-- temporary reproduction steps and command output → task evidence, not long-term memory
-
-When a fix reveals a reusable guard, lint rule, shared component contract, or utility, propose it to the Coordinator. Do not silently mutate shared code or
-documentation from a parallel worker.
-
-## Report format
-
-```text
-Status: REPRODUCED | ROOT_CAUSE_FOUND | FIXED | BLOCKED
-Mode: investigator | fixer
-Scope: route/component/command and owned files
-Symptom: expected versus actual
-Reproduction: steps, frequency, environment
-First attempt: what was tried and why it did or did not help
-Evidence: logs, stack, network, screenshots, profiler, tests
-Hypotheses: confirmed, rejected, pending
-Root cause: violated invariant and boundary
-Changed files:
-Verification: original failure, focused regression, broader checks
-Documentation impact: feature, domain, decision, architecture, Mermaid
-Remaining concerns: limits or unverified environments
-```
+When this reference is used by a worker, put the investigation evidence in the unified report in `parallel-work.md`; do not create a second worker-report
+format. Keep the bug-specific fields above as evidence inside that report.

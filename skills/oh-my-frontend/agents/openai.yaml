@@ -1,7 +1,7 @@
 interface:
   display_name: "Oh My Frontend"
-  short_description: "Frontend workflow, memory, and agent orchestration"
-  default_prompt: "Use $oh-my-frontend for frontend project memory, approval, parallel work, specialist review, and risk-based verification."
+  short_description: "Lightweight frontend triage and orchestration"
+  default_prompt: "Use $oh-my-frontend to classify frontend work; add planning, approval, workers, and durable docs only when the changed risk requires them."
 
 policy:
   allow_implicit_invocation: true

@@ -23,4 +23,4 @@ Test the changed risk on the smallest matrix that covers every changed platform 
 keyboard, focus, hover absence, reduced motion, file/input behavior, WebView bridge, permissions, and offline or slow network when the changed code touches
 those surfaces. Record browser/device, version, route, and evidence.
 
-Update `platform-boundaries.md` or architecture when a compatibility branch becomes a stable project rule.
+Report documentation impact when a compatibility branch becomes a stable project rule.

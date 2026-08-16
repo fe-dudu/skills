@@ -9,7 +9,7 @@ Verification must match changed behavior and risk. Do not force TDD or new tests
 | Copy, style, simple markup | lint, typecheck, visual check when rendered output changes | no new test unless the change has a concrete behavior regression risk |
 | Component interaction | lint, typecheck, focused user-flow check | interaction test when behavior is reusable or risky |
 | Form or validation | typecheck, focused success and failure checks | focused interaction tests |
-| Pure logic or domain rule | typecheck, unit checks, edge cases | TDD preferred |
+| Pure logic or domain rule | typecheck, focused unit checks, edge cases | focused test when the rule is externally observable |
 | Bug fix | reproduce, fix, verify regression | regression test when deterministic |
 | API or data flow | typecheck, request states, contract checks | integration test when boundary matters |
 | Auth, permission, payment, security | broader integration and runtime checks | strong regression coverage |
@@ -32,27 +32,8 @@ Avoid:
 - mocks that test the mock setup instead of behavior
 - tests added only to improve a coverage number
 
-For a mechanical or one-component change that adds no state, contract, or domain rule, start with zero to three new focused tests. Add more only when the risk
-justifies it and record why in the report.
-
-## TDD policy
-
-TDD is preferred for:
-
-- new pure functions
-- domain rules
-- state machines
-- bug fixes
-- permission and security decisions
-
-TDD is optional for:
-
-- layout and visual changes
-- straightforward component composition
-- API wiring whose behavior is covered at a higher boundary
-- configuration changes
-
-The policy is risk-based, not ritual-based.
+Choose the cheapest test or runtime boundary that can observe the changed behavior. Keep test implementation style, query choice, mocking, and accessibility
+patterns in `frontend-engineering` and framework-specific skills.
 
 ## Completion evidence
 
@@ -65,6 +46,9 @@ For each required check:
 5. report failures and limitations
 
 An agent's statement that a test passed is not verification evidence without the actual result.
+
+For deterministic time-dependent behavior, use fake timers or an equivalent controlled clock when the test framework supports it. For browser and async checks,
+wait for an observable state or event; do not add arbitrary sleeps or extend timeouts to hide flakiness.
 
 ## Debugging evidence
 

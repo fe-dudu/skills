@@ -9,11 +9,12 @@ import (
 
 func main() {
 	workspace := flag.String("workspace", "", "skill-creator workspace directory to grade")
+	skillName := flag.String("skill", "", "skill name from evals.json to grade")
 	flag.Parse()
 
 	if *workspace == "" {
-		fmt.Fprintln(os.Stderr, "Usage: skill-eval --workspace <path>")
-		fmt.Fprintln(os.Stderr, "  Grades a skill-creator workspace with static assertions from evals.json.")
+		fmt.Fprintln(os.Stderr, "Usage: skill-eval --skill <name> --workspace <path>")
+		fmt.Fprintln(os.Stderr, "  Grades one skill's outputs with static assertions from evals.json.")
 		os.Exit(1)
 	}
 
@@ -25,6 +26,11 @@ func main() {
 		fatal("loading evals.json: %v", err)
 	}
 
+	skill, err := selectSkill(suite, *skillName)
+	if err != nil {
+		fatal("selecting skill: %v", err)
+	}
+
 	wsPath := *workspace
 	if !filepath.IsAbs(wsPath) {
 		if cwd, err := os.Getwd(); err == nil {
@@ -32,7 +38,22 @@ func main() {
 		}
 	}
 
-	gradeWorkspace(wsPath, suite)
+	if err := gradeWorkspace(wsPath, skill); err != nil {
+		fatal("grading workspace: %v", err)
+	}
+}
+
+func selectSkill(suite *EvalSuite, name string) (*SkillEvals, error) {
+	if name != "" {
+		for i := range suite.Skills {
+			if suite.Skills[i].Name == name {
+				return &suite.Skills[i], nil
+			}
+		}
+		return nil, fmt.Errorf("skill %q not found", name)
+	}
+
+	return nil, fmt.Errorf("pass --skill to select an eval namespace")
 }
 
 // findEvalsDir returns the directory containing this binary's evals.json.
@@ -61,4 +82,3 @@ func fatal(format string, args ...interface{}) {
 	fmt.Fprintf(os.Stderr, "Error: "+format+"\n", args...)
 	os.Exit(1)
 }
-

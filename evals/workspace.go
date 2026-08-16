@@ -32,25 +32,29 @@ type SCSummary struct {
 
 // gradeWorkspace walks a skill-creator workspace directory and applies
 // static assertions from evals.json to the outputs.
-func gradeWorkspace(workspacePath string, suite *EvalSuite) {
+func gradeWorkspace(workspacePath string, skill *SkillEvals) error {
 	// Find the iteration directory. The user might point to the workspace root
 	// or directly to an iteration directory.
 	iterDir := resolveIterationDir(workspacePath)
 	if iterDir == "" {
-		fatal("no iteration directory found in %s", workspacePath)
+		return fmt.Errorf("no iteration directory found in %s", workspacePath)
 	}
 
 	fmt.Println("============================================")
+	fmt.Printf("  Skill: %s\n", skill.Name)
 	fmt.Printf("  Static grading: %s\n", iterDir)
 	fmt.Println("============================================")
 
 	// Build assertion lookup: eval ID -> assertions.
-	assertionMap := buildAssertionMap(suite)
-	triggerMap := buildTriggerMap(suite)
+	assertionMap := buildAssertionMap(skill.Evals)
+	triggerMap := buildTriggerMap(skill.Evals)
 
 	// Print triggering overview.
 	var triggerGroup TriggerGroup
 	evalDirs := findEvalDirs(iterDir)
+	if err := validateEvalDirs(evalDirs, skill); err != nil {
+		return fmt.Errorf("validating workspace evals: %w", err)
+	}
 	fmt.Printf("\n  --- TRIGGERING ---\n\n")
 	for _, evalDir := range evalDirs {
 		evalID := extractEvalID(filepath.Base(evalDir))
@@ -96,10 +100,12 @@ func gradeWorkspace(workspacePath string, suite *EvalSuite) {
 
 			cfgDir := filepath.Join(evalDir, cfg.dir)
 
-			outputText := readAllOutputs(filepath.Join(cfgDir, "outputs"))
+			outputText, err := readAllOutputs(filepath.Join(cfgDir, "outputs"))
+			if err != nil {
+				return fmt.Errorf("reading %s outputs: %w", cfgDir, err)
+			}
 			if outputText == "" {
-				fmt.Printf("  [SKIP] eval-%d/%s: no output files\n", evalID, cfg.dir)
-				continue
+				fmt.Printf("  [NO OUTPUT] eval-%d/%s: assertions still evaluated\n", evalID, cfg.dir)
 			}
 
 			var expectations []SCExpectation
@@ -124,7 +130,9 @@ func gradeWorkspace(workspacePath string, suite *EvalSuite) {
 				fmt.Printf("         %s\n", result.Evidence)
 			}
 
-			writeStaticGrading(cfgDir, expectations)
+			if err := writeStaticGrading(cfgDir, expectations); err != nil {
+				return fmt.Errorf("writing %s grading: %w", cfgDir, err)
+			}
 		}
 	}
 
@@ -158,10 +166,20 @@ func gradeWorkspace(workspacePath string, suite *EvalSuite) {
 		Triggering:   triggerGroup,
 		Timestamp:    time.Now().UTC().Format(time.RFC3339),
 	}
-	summaryBytes, _ := json.MarshalIndent(summary, "", "  ")
+	summaryBytes, err := json.MarshalIndent(summary, "", "  ")
+	if err != nil {
+		return fmt.Errorf("encoding static summary: %w", err)
+	}
 	outPath := filepath.Join(iterDir, "static_summary.json")
-	_ = os.WriteFile(outPath, summaryBytes, 0o644)
+	if err := os.WriteFile(outPath, summaryBytes, 0o644); err != nil {
+		return fmt.Errorf("writing static summary: %w", err)
+	}
 	fmt.Printf("\nStatic summary written to: %s\n", outPath)
+
+	if withSkill.Failed > 0 {
+		return fmt.Errorf("%d with-skill assertion(s) failed", withSkill.Failed)
+	}
+	return nil
 }
 
 // resolveIterationDir finds the iteration directory to grade.
@@ -189,9 +207,24 @@ func resolveIterationDir(path string) string {
 		return ""
 	}
 
-	// Sort and pick the latest.
-	sort.Strings(iterDirs)
+	// Sort numerically and pick the latest.
+	sort.Slice(iterDirs, func(i, j int) bool {
+		iNumber := iterationNumber(iterDirs[i])
+		jNumber := iterationNumber(iterDirs[j])
+		if iNumber != jNumber {
+			return iNumber < jNumber
+		}
+		return iterDirs[i] < iterDirs[j]
+	})
 	return iterDirs[len(iterDirs)-1]
+}
+
+func iterationNumber(path string) int {
+	number, err := strconv.Atoi(strings.TrimPrefix(filepath.Base(path), "iteration-"))
+	if err != nil {
+		return -1
+	}
+	return number
 }
 
 func hasEvalDirs(dir string) bool {
@@ -218,11 +251,16 @@ func findEvalDirs(iterDir string) []string {
 			dirs = append(dirs, filepath.Join(iterDir, e.Name()))
 		}
 	}
-	sort.Strings(dirs)
+	sort.Slice(dirs, func(i, j int) bool {
+		iID := extractEvalID(filepath.Base(dirs[i]))
+		jID := extractEvalID(filepath.Base(dirs[j]))
+		if iID != jID {
+			return iID < jID
+		}
+		return dirs[i] < dirs[j]
+	})
 	return dirs
 }
-
-
 func extractEvalID(dirName string) int {
 	// eval-0, eval-1, eval-2, etc.
 	parts := strings.SplitN(dirName, "-", 2)
@@ -236,42 +274,70 @@ func extractEvalID(dirName string) int {
 	return id
 }
 
-// buildAssertionMap creates a map from eval ID to assertions.
-// Skill-creator uses 0-indexed eval IDs, evals.json uses 1-indexed.
-// We store both mappings: original ID and ID-1 (0-indexed).
-func buildAssertionMap(suite *EvalSuite) map[int][]Assertion {
+func validateEvalDirs(evalDirs []string, skill *SkillEvals) error {
+	if len(evalDirs) == 0 {
+		return fmt.Errorf("no eval-* directories found for skill %q", skill.Name)
+	}
+
+	knownIDs := make(map[int]struct{}, len(skill.Evals))
+	for _, eval := range skill.Evals {
+		if _, exists := knownIDs[eval.ID]; exists {
+			return fmt.Errorf("duplicate eval ID %d for skill %q", eval.ID, skill.Name)
+		}
+		knownIDs[eval.ID] = struct{}{}
+	}
+
+	foundIDs := make(map[int]struct{}, len(evalDirs))
+	for _, evalDir := range evalDirs {
+		dirName := filepath.Base(evalDir)
+		evalID := extractEvalID(dirName)
+		if _, ok := knownIDs[evalID]; !ok {
+			return fmt.Errorf("%s is not defined for skill %q", dirName, skill.Name)
+		}
+		if _, exists := foundIDs[evalID]; exists {
+			return fmt.Errorf("duplicate eval directory ID %d for skill %q", evalID, skill.Name)
+		}
+		foundIDs[evalID] = struct{}{}
+	}
+
+	for evalID := range knownIDs {
+		if _, ok := foundIDs[evalID]; !ok {
+			return fmt.Errorf("eval-%d is missing for skill %q", evalID, skill.Name)
+		}
+	}
+	return nil
+}
+
+// buildAssertionMap creates a map from eval ID to assertions for one skill.
+// Eval IDs are scoped to the selected skill.
+func buildAssertionMap(evals []Eval) map[int][]Assertion {
 	m := make(map[int][]Assertion)
-	for _, skill := range suite.Skills {
-		for i, eval := range skill.Evals {
-			if len(eval.Assertions) > 0 {
-				// Map by original ID from evals.json.
-				m[eval.ID] = eval.Assertions
-				// Also map by 0-based index for skill-creator compatibility.
-				m[i] = eval.Assertions
-			}
+	for _, eval := range evals {
+		if len(eval.Assertions) > 0 {
+			m[eval.ID] = eval.Assertions
 		}
 	}
 	return m
 }
 
-// buildTriggerMap creates a map from eval ID to should_trigger value.
-func buildTriggerMap(suite *EvalSuite) map[int]bool {
+// buildTriggerMap creates a map from eval ID to should_trigger for one skill.
+// Eval IDs are scoped to the selected skill.
+func buildTriggerMap(evals []Eval) map[int]bool {
 	m := make(map[int]bool)
-	for _, skill := range suite.Skills {
-		for i, eval := range skill.Evals {
-			trigger := eval.ShouldTriggerVal()
-			m[eval.ID] = trigger
-			m[i] = trigger
-		}
+	for _, eval := range evals {
+		m[eval.ID] = eval.ShouldTriggerVal()
 	}
 	return m
 }
 
 // readAllOutputs reads and concatenates all text files in an outputs directory.
-func readAllOutputs(outputsDir string) string {
+func readAllOutputs(outputsDir string) (string, error) {
 	entries, err := os.ReadDir(outputsDir)
 	if err != nil {
-		return ""
+		if os.IsNotExist(err) {
+			return "", nil
+		}
+		return "", err
 	}
 
 	var parts []string
@@ -283,7 +349,7 @@ func readAllOutputs(outputsDir string) string {
 		fp := filepath.Join(outputsDir, e.Name())
 		data, err := os.ReadFile(fp)
 		if err != nil {
-			continue
+			return "", err
 		}
 
 		// Skip binary-looking files.
@@ -295,7 +361,7 @@ func readAllOutputs(outputsDir string) string {
 		parts = append(parts, fmt.Sprintf("--- %s ---\n%s", e.Name(), content))
 	}
 
-	return strings.Join(parts, "\n\n")
+	return strings.Join(parts, "\n\n"), nil
 }
 
 func isBinary(s string) bool {
@@ -307,7 +373,7 @@ func isBinary(s string) bool {
 	return false
 }
 
-func writeStaticGrading(runDir string, expectations []SCExpectation) {
+func writeStaticGrading(runDir string, expectations []SCExpectation) error {
 	passed := 0
 	for _, e := range expectations {
 		if e.Passed {
@@ -328,7 +394,9 @@ func writeStaticGrading(runDir string, expectations []SCExpectation) {
 		grading.Summary.PassRate = float64(passed) / float64(grading.Summary.Total)
 	}
 
-	data, _ := json.MarshalIndent(grading, "", "  ")
-	_ = os.WriteFile(filepath.Join(runDir, "static_grading.json"), data, 0o644)
+	data, err := json.MarshalIndent(grading, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(filepath.Join(runDir, "static_grading.json"), data, 0o644)
 }
-

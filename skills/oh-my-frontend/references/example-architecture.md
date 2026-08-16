@@ -26,8 +26,9 @@ flowchart LR
 **Integration rule:** Workers may implement inside this boundary. A worker must report a proposed boundary change instead of silently adding a cross-feature dependency.
 
 **Related:**
-- Feature: `docs/features/member-invitation/`
-- Domain: `docs/domain/business-rules.md`
-- Decision: `docs/decisions/2026-08-14-member-invitation.md`
+- Feature: `<project-canonical-feature-source>`
+- Domain: `<project-canonical-domain-source>`
+- Decision: `<project-canonical-decision-source>`
 
-<!-- Write the reason when the boundary is not self-evident. Update the Mermaid source whenever ownership or dependency direction changes. -->
+<!-- Example paths are illustrative. Write the reason when the boundary is not self-evident. Update an existing Mermaid source only when a durable ownership or
+dependency boundary changes and the diagram remains useful. -->

@@ -4,7 +4,7 @@ Use this reference for stable boundaries shared by multiple features or packages
 
 ## What belongs here
 
-For a complete boundary document with ownership and Mermaid, see `example-architecture.md` from the parent `SKILL.md` reference list.
+Use the optional architecture example from `SKILL.md` only when creating or reviewing a complete boundary document.
 
 - module and package boundaries
 - dependency direction
@@ -24,7 +24,7 @@ For a complete boundary document with ownership and Mermaid, see `example-archit
 - A shared contract has one owner during a change.
 ```
 
-Write the reason and affected boundary when a rule is not self-evident. Link the rule from affected feature documents and decisions.
+Report the reason and affected boundary when a rule is not self-evident.
 
 ## Architecture change gate
 
@@ -33,16 +33,17 @@ For a new or changed shared boundary:
 1. inspect current imports, runtime ownership, and project conventions;
 2. identify affected features and agents;
 3. compare viable options and their integration cost;
-4. record the approved decision;
-5. update the architecture document and affected Mermaid diagrams;
+4. report the decision and approval status;
+5. report documentation impact and whether an existing Mermaid diagram is stale and remains useful;
 6. implement sequentially when the shared contract is still changing.
 
 Do not let parallel workers independently redefine a shared boundary. Workers may implement within an approved boundary and report a proposed change.
 
 This reference does not prescribe Feature-Sliced Design, layered architecture, DDD, or another framework. If the project has a preferred architecture, record
-its stable boundaries and dependency direction in `/docs/architecture/`; do not invent a new architecture for one feature.
+its stable boundaries and dependency direction in the project's existing canonical documentation location. If no such location exists, report the gap through
+`documentation.md`; do not invent a new architecture for one feature.
 
 ## Diagrams
 
-Use Mermaid for module relationships, data flow, or ownership when the diagram reduces ambiguity. Keep the source in the repository and update it with the
-architecture rule. A screenshot is evidence, not the architecture source.
+Use Mermaid for module relationships, data flow, or ownership only when the diagram reduces ambiguity. Keep the source in the repository and update an existing
+diagram only when a durable relationship or ownership boundary changed. A screenshot is evidence, not the architecture source.

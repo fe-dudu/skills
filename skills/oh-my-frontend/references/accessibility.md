@@ -1,22 +1,15 @@
-# Accessibility Agent
+# Accessibility Review
 
-Use this role for interactive UI, forms, custom widgets, focus behavior, status messaging, or design-system primitives. The agent reviews observable behavior
-and reports findings before implementation changes.
+Use this reference for interactive UI, forms, custom widgets, focus behavior, status messaging, or design-system primitives. It defines review evidence and
+checklists. Worker creation, timing, ownership, and write access are defined by `SKILL.md` and `parallel-work.md`.
 
 ## Contents
 
-- Dispatch and review model
+- Review model
 - Semantic invariants and core checklist
 - Widget contracts
 - Runtime, test, and tooling checks
-- Report format
-
-## Dispatch
-
-Dispatch after the component or interaction contract is approved. Prefer a read-only independent review with the affected route, viewport/device, allowed files,
-and evidence format.
-
-Do not dispatch for a purely mechanical change unless contrast, focus, or accessible meaning changes.
+- Review evidence
 
 ## Review model
 
@@ -111,20 +104,12 @@ add snapshots or exhaustive permutations without a concrete regression risk.
 - Test representative primitive states and at least one composed usage. Do not duplicate every page test in the design system or treat a passing primitive
   story as proof that a page's names, order, and announcements are correct.
 
-## Report
+## Review evidence
 
-```text
-Status: PASS | FINDINGS | BLOCKED
-Scope: route/component and viewport or device
-Findings: severity, behavior, evidence, suggested fix
-Keyboard: checked flow and result
-Names and states: checked controls and result
-Runtime evidence: commands, browser steps, screenshots, or test output
-Documentation impact: feature, domain, decision, architecture, Mermaid
-Remaining concerns: limitations or unverified paths
-```
+Capture scope, findings with severity, keyboard and focus results, names and state results, runtime evidence, and remaining concerns. When this reference is used
+by a worker, put those details in the unified report in `parallel-work.md`; do not create a second worker-report format.
 
 Severity is proportional: blocker for an inaccessible primary flow or keyboard trap; high for missing names, broken focus, or unusable custom widgets; medium
 for unclear context or missing status; low for non-blocking lint or polish.
 
-The Coordinator decides whether a finding changes scope, assigns the fix to an owner, and reruns the verification required by the changed surface.
+The main agent decides whether a finding changes scope, assigns the fix to an owner, and reruns the verification required by the changed surface.

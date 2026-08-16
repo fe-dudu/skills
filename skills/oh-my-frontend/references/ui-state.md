@@ -55,7 +55,9 @@ effect, keep it out of the user-facing state model.
 
 ## Transitions
 
-Make meaningful transitions explicit. Use Mermaid when there are more than a few states or when timing and ownership could be misunderstood.
+Make meaningful transitions explicit. In an existing or user-approved durable feature document, update an existing Mermaid diagram only when several states or
+timing and ownership would otherwise be misunderstood. Create a new diagram only when the user explicitly requests durable documentation or the approved document
+requires a new model. Do not create a diagram for local component state.
 
 ```mermaid
 stateDiagram-v2
@@ -67,7 +69,7 @@ stateDiagram-v2
   Success --> Idle: reset
 ```
 
-Keep business invariants in `domain.md`; this document describes how the UI represents them.
+Keep business invariants in domain documents; this reference describes how the UI represents them.
 
 ## Accessibility relation
 

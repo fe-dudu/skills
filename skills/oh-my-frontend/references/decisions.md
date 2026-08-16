@@ -4,7 +4,8 @@ Use this reference when a choice has durable product, domain, architecture, secu
 
 ## File rule
 
-Create one file per date and feature:
+Use the project's existing canonical decision-record location. If no durable documentation structure exists and the user approves the recommended structure,
+use one file per date and feature:
 
 ```text
 docs/decisions/YYYY-MM-DD-<feature-name>.md
@@ -14,7 +15,7 @@ Append multiple decisions to that file. Do not create a decision record for ever
 
 ## Required decision content
 
-For a complete decision record example, see `example-decision.md` from the parent `SKILL.md` reference list.
+Use the optional decision example from `SKILL.md` only when creating or reviewing a complete decision record.
 
 ```md
 # <Feature> Decisions — YYYY-MM-DD
@@ -33,7 +34,7 @@ For a complete decision record example, see `example-decision.md` from the paren
 Ask the user before recording an accepted decision when the choice changes scope, user-visible behavior, shared contracts, domain meaning, architecture,
 security, or parallel ownership.
 
-Keep proposed decisions separate from accepted decisions. Workers may propose a decision, but only the Coordinator records it as accepted after the user
+Keep proposed decisions separate from accepted decisions. Workers may propose a decision, but only the main agent records it as accepted after the user
 approval is captured in the decision record or task packet.
 
 ## Lifecycle

@@ -4,7 +4,7 @@ Use when the same feature targets Web, WebView, or React Native, or when a platf
 
 ## Boundary contract
 
-Document what is shared and what is platform-specific:
+Report what is shared and what is platform-specific:
 
 - domain terms, business rules, data contracts, and feature behavior;
 - navigation, storage, network, permissions, deep links, and lifecycle;
@@ -20,4 +20,5 @@ consistent. A platform branch needs an owner, reason, and verification path.
 Run the shared acceptance flow on each affected platform. Add platform-specific checks for navigation, focus, touch, permissions, lifecycle, network loss,
 orientation, safe area, WebView/native bridge, and performance. Report unsupported capabilities explicitly.
 
-Update the architecture diagram when a platform boundary or adapter changes. Record a decision when shared behavior intentionally diverges.
+Report when a platform boundary or adapter changes, or when shared behavior intentionally diverges. Report whether an existing architecture diagram is stale or
+whether a decision is needed.

@@ -33,4 +33,4 @@ Run the affected flow from direct URL entry and normal navigation. Check:
 - pending navigation, failed data load, duplicate clicks, and unsaved form recovery;
 - URL encoding and query persistence for routes that accept or expose parameters; unsafe redirect rejection whenever the redirect destination is user- or external-input-controlled.
 
-Update the feature user flow and state model. Record route ownership or cross-feature navigation decisions in `/docs/architecture/`.
+Report durable user-flow or state-model impact and route ownership or cross-feature navigation decisions.

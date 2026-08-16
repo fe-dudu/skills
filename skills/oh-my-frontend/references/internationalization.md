@@ -11,7 +11,8 @@ Use when UI text, locale, language, currency, date, time, timezone, translation,
 - text expansion, line breaking, font coverage, RTL mirroring, and mixed direction;
 - user preference changes and whether content reloads or preserves state.
 
-Never concatenate translated fragments when grammar can change. Keep business terms consistent with `docs/domain/ubiquitous-language.md`. Do not use flag icons as a
+Never concatenate translated fragments when grammar can change. Keep business terms consistent with the project's canonical domain terminology source when
+one exists. If none exists, report the missing terminology source through `documentation.md`; do not assume a `docs/` path. Do not use flag icons as a
 language selector without an accessible text label.
 
 ## Verification
@@ -19,4 +20,4 @@ language selector without an accessible text label.
 Use a locale matrix with short and long text, missing translations, plural counts, dates near timezone boundaries, currency formats, RTL, keyboard navigation,
 small viewports, and server/client locale consistency. Check that locale changes do not corrupt URLs, cache identity, form values, or analytics privacy.
 
-Record supported locale and formatting decisions in architecture or feature documentation. Record terminology changes in the domain glossary.
+Report supported-locale and formatting decisions and terminology impact.

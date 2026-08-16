@@ -18,7 +18,6 @@ type Eval struct {
 	ID            int         `json:"id"`
 	Prompt        string      `json:"prompt"`
 	ShouldTrigger *bool       `json:"should_trigger,omitempty"`
-	Expected      string      `json:"expected_output,omitempty"`
 	Assertions    []Assertion `json:"assertions,omitempty"`
 }
 
@@ -67,4 +66,3 @@ type GradingSummary struct {
 	Triggering   TriggerGroup `json:"triggering"`
 	Timestamp    string       `json:"timestamp"`
 }
-

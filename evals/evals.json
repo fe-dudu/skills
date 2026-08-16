@@ -9,7 +9,6 @@
           "id": 0,
           "prompt": "Refactor this nested if/else TypeScript function to match the frontend engineering style without changing behavior.",
           "should_trigger": true,
-          "expected_output": "Uses guard clauses and early returns, removes else and unnecessary nesting, and preserves behavior.",
           "assertions": [
             {"type": "contains_any", "values": ["guard clause", "guard clauses", "early return", "early returns"], "text": "Uses flat control flow"},
             {"type": "contains", "value": "else", "text": "Addresses else branches"},
@@ -20,7 +19,6 @@
           "id": 1,
           "prompt": "Review this React component that copies a filtered list into state with useEffect and adds useMemo and useCallback everywhere.",
           "should_trigger": true,
-          "expected_output": "Removes derived state and unjustified memoization, and keeps useEffect only for real external side effects.",
           "assertions": [
             {"type": "contains_any", "values": ["derived state", "derived data"], "text": "Rejects derived state in an effect"},
             {"type": "contains", "value": "useMemo", "text": "Evaluates memoization intentionally"},
@@ -31,7 +29,6 @@
           "id": 2,
           "prompt": "Write a test for a form submission. The test should verify what the user sees and what domain result occurs, not internal function call counts or CSS classes.",
           "should_trigger": true,
-          "expected_output": "Tests user-visible behavior, accessible queries, and the domain result while avoiding implementation details.",
           "assertions": [
             {"type": "contains_any", "values": ["user behavior", "user-visible", "accessible", "role"], "text": "Tests observable behavior"},
             {"type": "not_contains", "value": "toHaveBeenCalledTimes", "text": "Avoids call-count assertions"},
@@ -41,14 +38,12 @@
         {
           "id": 3,
           "prompt": "Implement a Python data migration for a backend-only service with no TypeScript, React, or frontend code.",
-          "should_trigger": false,
-          "expected_output": "The frontend engineering skill should not be required for this unrelated backend task."
+          "should_trigger": false
         },
         {
           "id": 4,
           "prompt": "Design error handling for an API request that can fail through network, validation, or domain errors.",
           "should_trigger": true,
-          "expected_output": "Distinguishes API, validation, domain, network, and unknown errors instead of using one generic error path.",
           "assertions": [
             {"type": "contains_any", "values": ["validation", "domain", "network"], "text": "Separates error kinds"},
             {"type": "contains", "value": "generic", "text": "Rejects generic error handling"}
@@ -58,7 +53,6 @@
           "id": 5,
           "prompt": "Review a small TypeScript change that adds a one-use variable only to rename a simple expression, extracts a pass-through helper for one call site, and adds an index.ts re-export to shorten an import.",
           "should_trigger": true,
-          "expected_output": "Keeps a short simple expression inline, rejects the unnecessary helper or wrapper, and preserves direct imports instead of adding aliases, re-exports, or barrel files.",
           "assertions": [
             {"type": "contains_any", "values": ["one-use", "inline", "simple expression"], "text": "Uses the variable extraction boundary"},
             {"type": "contains_any", "values": ["pass-through", "wrapper", "helper"], "text": "Rejects pass-through abstractions"},
@@ -69,7 +63,6 @@
           "id": 6,
           "prompt": "Review a React data screen that uses array indexes as keys, mutates props, copies query data into Jotai, and leaves an effect's subscription running after unmount.",
           "should_trigger": true,
-          "expected_output": "Uses stable domain IDs for keys, treats props as read-only, keeps server state in the query cache, and cleans up the effect subscription.",
           "assertions": [
             {"type": "contains_any", "values": ["stable", "domain ID", "key"], "text": "Uses stable React identity"},
             {"type": "contains_any", "values": ["read-only", "immutable", "mutate props"], "text": "Protects props"},
@@ -81,7 +74,6 @@
           "id": 7,
           "prompt": "Design frontend resilience for a request that can be cancelled, race with a newer request, fail with a network error or 500, reconnect later, or fail validation. It also reads API data from localStorage and renders a partial screen.",
           "should_trigger": true,
-          "expected_output": "Cancels stale work, handles races, retries only eligible transient failures with bounded backoff, refetches after reconnect, validates runtime inputs, and isolates render failures with a fallback.",
           "assertions": [
             {"type": "contains_any", "values": ["cancel", "stale", "race"], "text": "Handles request lifecycle"},
             {"type": "contains_any", "values": ["backoff", "transient", "5xx", "retry"], "text": "Bounds retries"},
@@ -93,7 +85,6 @@
           "id": 8,
           "prompt": "Write tests for a keyboard-accessible form interaction with focus movement and an accessible name, while also reviewing code that uses dangerouslySetInnerHTML, production console logging, non-null assertions, and unused imports.",
           "should_trigger": true,
-          "expected_output": "Tests keyboard behavior, focus, and accessible names, and removes or fixes unsafe HTML, production diagnostics, non-null assertions, and unused code.",
           "assertions": [
             {"type": "contains_any", "values": ["keyboard", "focus", "accessible name"], "text": "Tests accessibility behavior"},
             {"type": "contains_any", "values": ["dangerouslySetInnerHTML", "sanitize", "trusted"], "text": "Handles raw HTML safely"},
@@ -105,7 +96,6 @@
           "id": 9,
           "prompt": "Review a React render that uses response?.items?.map(...) ?? [] because an API contract says the response is an array, but malformed data might be an object. The project has an Error Boundary fallback.",
           "should_trigger": true,
-          "expected_output": "Validates the external response at the boundary, treats the declared array contract as required, and surfaces contract violations to the Error Boundary instead of hiding them with render-time optional chaining or empty fallbacks.",
           "assertions": [
             {"type": "contains_any", "values": ["contract", "boundary", "runtime validation"], "text": "Validates the contract at the boundary"},
             {"type": "contains_any", "values": ["Error Boundary", "fallback", "throw"], "text": "Surfaces contract failures"},
@@ -116,7 +106,6 @@
           "id": 10,
           "prompt": "Review TypeScript and React code that relies on inference for useState and useRef, and leaves function return types implicit. Apply the frontend engineering type rules.",
           "should_trigger": true,
-          "expected_output": "Adds explicit type arguments to all listed stateful hooks and explicit return types to functions.",
           "assertions": [
             {"type": "contains_any", "values": ["useState", "useRef"], "text": "Covers stateful hook types"},
             {"type": "contains_any", "values": ["return type", "return types", ": number", ": void"], "text": "Covers function return contracts"}
@@ -126,7 +115,6 @@
           "id": 11,
           "prompt": "Review an ecommerce route that reads productId from a path, page and sort from the query string, and a tab from the URL hash. The values are used directly as API and UI state without parsing or validation.",
           "should_trigger": true,
-          "expected_output": "Treats path, query, and hash values as user-controlled state, parses and validates them at the route boundary, applies valid defaults only where allowed, and does not use URL values for authorization.",
           "assertions": [
             {"type": "contains_any", "values": ["path", "query", "hash", "URL"], "text": "Covers all URL state sources"},
             {"type": "contains_any", "values": ["parse", "validate", "runtime"], "text": "Validates URL values"},
@@ -137,7 +125,6 @@
           "id": 12,
           "prompt": "Review a React product screen with nested JSX ternaries for loading, error, ready, and empty states. The repository provides an optional generic SwitchCase component, but a local switch inside JSX is also acceptable.",
           "should_trigger": true,
-          "expected_output": "Replaces the nested JSX ternaries with either the existing SwitchCase component or a local IIFE switch, choosing the clearer explicit branch strategy without creating an unnecessary helper.",
           "assertions": [
             {"type": "contains_any", "values": ["SwitchCase", "switch", "IIFE"], "text": "Uses an explicit JSX branch strategy"},
             {"type": "contains_any", "values": ["nested ternary", "nested JSX", "ternary"], "text": "Rejects nested JSX ternaries"}
@@ -147,7 +134,6 @@
           "id": 13,
           "prompt": "Review a React product screen that uses useEffect to derive filtered products, fetch a product with fetch and setState, relay a wishlist click through a state flag, and reset an editor with an effect when productId changes.",
           "should_trigger": true,
-          "expected_output": "Removes effect-based derived state, uses the established data-fetching layer, performs user actions in the event handler, and uses a keyed remount for identity-based reset. Keeps effects only for external-system synchronization.",
           "assertions": [
             {"type": "contains_any", "values": ["derived state", "derive", "inline"], "text": "Derives render data without an effect"},
             {"type": "contains_any", "values": ["data-fetching", "query", "caching", "cancellation"], "text": "Uses the data-fetching layer"},
@@ -159,7 +145,6 @@
           "id": 14,
           "prompt": "Review a TypeScript API layer that catches a timeout and throws new Error(`Request failed: ${error.message}`), while the repository has a BaseApiError with statusCode and code fields.",
           "should_trigger": true,
-          "expected_output": "Uses a typed domain or API error with stable statusCode and code, wraps the original unknown error with Error.cause, avoids message concatenation, and tests both the boundary error and root cause.",
           "assertions": [
             {"type": "contains_any", "values": ["cause", "Error.cause", "root cause"], "text": "Preserves the original error"},
             {"type": "contains_any", "values": ["statusCode", "code", "typed error", "domain error"], "text": "Keeps stable error metadata"},
@@ -171,7 +156,6 @@
           "id": 15,
           "prompt": "Design a React product screen for slow networks, transient request failures, and a product API outage. The app has a previously validated cached response and an Error Boundary.",
           "should_trigger": true,
-          "expected_output": "Shows accessible loading feedback, retries only eligible transient failures with bounded backoff, uses validated stale data only when safe and labels the degraded state, provides actionable error feedback, and isolates render failures with an Error Boundary.",
           "assertions": [
             {"type": "contains_any", "values": ["skeleton", "loading", "accessible"], "text": "Handles slow loading visibly"},
             {"type": "contains_any", "values": ["backoff", "transient", "retry"], "text": "Handles transient request failures"},
@@ -183,7 +167,6 @@
           "id": 16,
           "prompt": "Review a React component where filtering products takes 1.3ms on representative hardware, while the codebase also adds useMemo to every local value and callback without measuring or a referential-stability consumer.",
           "should_trigger": true,
-          "expected_output": "Treats the 1.3ms calculation as expensive in the context of the 60 FPS frame budget, measures in a production-like environment, and adds useMemo only for that justified calculation while removing speculative memoization elsewhere.",
           "assertions": [
             {"type": "contains_any", "values": ["1ms", "1.3ms", "expensive", "16.6ms", "60 FPS"], "text": "Applies the measured cost threshold"},
             {"type": "contains_any", "values": ["production", "throttl", "measure", "profile"], "text": "Uses representative performance measurement"},
@@ -200,7 +183,6 @@
           "id": 0,
           "prompt": "Add a new workspace invitation feature to an existing React app. The repository has docs/domain, docs/features, docs/decisions, and docs/architecture. First clarify ambiguous business rules, record approved durable decisions, then split independent UI and API work for parallel agents.",
           "should_trigger": true,
-          "expected_output": "Reads relevant project memory, asks only consequential questions, records durable decisions, and dispatches independent work with explicit ownership and verification.",
           "assertions": [
             {"type": "contains_any", "values": ["ubiquitous", "domain terms", "business rules"], "text": "Uses project domain memory"},
             {"type": "contains_any", "values": ["decision", "approval", "approve"], "text": "Requires approval for consequential choices"},
@@ -211,7 +193,6 @@
           "id": 1,
           "prompt": "Change the padding and button color in one existing React component. The intended result is clear and no behavior changes.",
           "should_trigger": true,
-          "expected_output": "Treats the change as mechanical, avoids an unnecessary interview or task plan, and performs proportional lint, type, or visual verification.",
           "assertions": [
             {"type": "contains_any", "values": ["mechanical", "small change", "Level 0"], "text": "Classifies a small change"},
             {"type": "contains_any", "values": ["no interview", "without an interview", "no question"], "text": "Avoids unnecessary questioning"},
@@ -222,7 +203,6 @@
           "id": 2,
           "prompt": "Split a frontend feature into parallel agents: one changes the invite form, one changes the invite list, and one reviews accessibility. They must not edit the same files, and a shared API type has not been decided yet.",
           "should_trigger": true,
-          "expected_output": "Blocks or sequences the work until the shared contract is approved, assigns file ownership, and gives each worker a clear brief.",
           "assertions": [
             {"type": "contains_any", "values": ["shared contract", "API type", "approved"], "text": "Resolves shared contract before parallel work"},
             {"type": "contains_any", "values": ["file ownership", "same file", "scope"], "text": "Defines worker boundaries"},
@@ -233,7 +213,6 @@
           "id": 3,
           "prompt": "A feature request calls the same concept both Workspace and Project. The code, feature document, and business rule disagree. Decide how the frontend workflow should handle this before implementation.",
           "should_trigger": true,
-          "expected_output": "Stops on the contradiction, asks for clarification, and updates the approved ubiquitous language and decision record instead of silently choosing a term.",
           "assertions": [
             {"type": "contains_any", "values": ["conflict", "contradiction", "stop"], "text": "Surfaces documentation conflict"},
             {"type": "contains_any", "values": ["ubiquitous", "canonical term", "glossary"], "text": "Protects domain terminology"},
@@ -244,7 +223,6 @@
           "id": 4,
           "prompt": "Review a new React checkout screen in a browser. Verify responsive layout, loading and error states, keyboard navigation, focus, accessible names, and whether the feature Mermaid state diagram still matches the implementation.",
           "should_trigger": true,
-          "expected_output": "Performs browser and visual verification, checks accessibility behavior, and synchronizes the Mermaid state model when behavior changed.",
           "assertions": [
             {"type": "contains_any", "values": ["browser", "viewport", "responsive"], "text": "Checks runtime visual behavior"},
             {"type": "contains_any", "values": ["keyboard", "focus", "accessible name"], "text": "Checks accessibility behavior"},
@@ -254,14 +232,12 @@
         {
           "id": 5,
           "prompt": "Implement a Python-only backend data migration with no frontend, browser, UI, or React work.",
-          "should_trigger": false,
-          "expected_output": "The frontend workflow skill should not be required for an unrelated backend-only task."
+          "should_trigger": false
         },
         {
           "id": 6,
           "prompt": "Review a new custom React modal and icon-only toolbar. Check its semantic roles, accessible names, keyboard operation, focus entry and restoration, Escape handling, background interaction, and whether a focused regression test is needed. Do not add a broad test suite.",
           "should_trigger": true,
-          "expected_output": "Routes an accessibility review, prefers native dialog/button semantics, checks names and focus behavior at runtime, reports evidence and severity, and adds only a focused test when a concrete regression risk exists.",
           "assertions": [
             {"type": "contains_any", "values": ["accessibility", "native", "dialog", "button"], "text": "Uses the accessibility agent and native semantics"},
             {"type": "contains_any", "values": ["accessible name", "label", "icon-only"], "text": "Checks accessible names"},
@@ -273,7 +249,6 @@
           "id": 7,
           "prompt": "Change the margin and copy in one existing card. There is no semantic, contrast, focus, or interaction change.",
           "should_trigger": true,
-          "expected_output": "Treats the change as mechanical and does not dispatch the accessibility agent unless the visual change affects contrast, focus visibility, or meaning.",
           "assertions": [
             {"type": "contains_any", "values": ["mechanical", "Level 0", "small change"], "text": "Classifies the change as mechanical"},
             {"type": "contains_any", "values": ["do not dispatch", "not dispatch", "unnecessary", "no accessibility"], "text": "Avoids unnecessary accessibility work"}
@@ -283,7 +258,6 @@
           "id": 8,
           "prompt": "A React checkout intermittently shows an old total after rapid edits. Investigate it without guessing: capture expected and actual behavior, reproduce it, draw the event/state/request flow, compare stale-closure and out-of-order-response hypotheses, then recommend a minimal fix and focused regression test.",
           "should_trigger": true,
-          "expected_output": "Runs the debugging investigator workflow, records reproduction and environment, uses evidence to distinguish hypotheses, identifies the violated state or async invariant, and keeps the fix and test proportional.",
           "assertions": [
             {"type": "contains_any", "values": ["reproduce", "reproduction", "expected", "actual"], "text": "Frames and reproduces the incident"},
             {"type": "contains_any", "values": ["Mermaid", "flow", "state", "request"], "text": "Maps the state and async flow"},
@@ -295,10 +269,100 @@
           "id": 9,
           "prompt": "Fix a single copy typo in a static card. There is no runtime, state, browser, network, or behavior change.",
           "should_trigger": true,
-          "expected_output": "Treats the change as mechanical and does not dispatch the debugging agent or create a debugging investigation.",
           "assertions": [
             {"type": "contains_any", "values": ["mechanical", "Level 0", "small change"], "text": "Classifies the change as mechanical"},
             {"type": "contains_any", "values": ["do not dispatch", "not dispatch", "unnecessary", "no debugging"], "text": "Avoids unnecessary debugging work"}
+          ]
+        },
+        {
+          "id": 10,
+          "prompt": "Add a consequential workspace invitation feature to a frontend repository with no docs directory. The feature introduces a domain term and an API contract, but the user has not asked to create project documentation.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["no docs", "no documentation", "not found"], "text": "Detects missing project memory"},
+            {"type": "contains_any", "values": ["recommend", "recommendation", "minimal structure"], "text": "Recommends a minimal structure"},
+            {"type": "contains_any", "values": ["ask", "approval", "whether to add"], "text": "Asks before creating documentation"},
+            {"type": "contains_any", "values": ["do not create", "does not create", "not create"], "text": "Avoids implicit scaffolding"}
+          ]
+        },
+        {
+          "id": 11,
+          "prompt": "Implement a small bounded form behavior inside an existing feature that already has a clear repository pattern and no shared contract changes.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["Bounded", "bounded"], "text": "Uses the bounded level"},
+            {"type": "contains_any", "values": ["primary", "one reference"], "text": "Loads one primary concern"},
+            {"type": "contains_any", "values": ["existing convention", "existing pattern", "no approval", "no question"], "text": "Avoids unnecessary orchestration"},
+            {"type": "contains_any", "values": ["focused", "verification", "test"], "text": "Uses focused verification"}
+          ]
+        },
+        {
+          "id": 12,
+          "prompt": "A one-owner change touches two files. A separate proposal suggests creating a task packet, planner agent, reviewer agent, and accessibility worker even though the interaction contract and risk are clear.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["sequential", "one owner", "single owner"], "text": "Keeps one-owner work sequential"},
+            {"type": "contains_any", "values": ["no task packet", "skip", "does not create"], "text": "Avoids an unnecessary packet"},
+            {"type": "contains_any", "values": ["no worker", "no specialist", "no reviewer", "main agent"], "text": "Avoids unnecessary agents"}
+          ]
+        },
+        {
+          "id": 13,
+          "prompt": "An API and responsive UI change matches data-fetching, responsive, and performance concerns. The work is owned by one implementer, and only data freshness affects acceptance criteria.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["primary", "data-fetching", "data fetching"], "text": "Selects one primary concern"},
+            {"type": "contains_any", "values": ["secondary", "only if", "acceptance", "evidence"], "text": "Limits secondary references"},
+            {"type": "contains_any", "values": ["does not create", "no specialist", "not dispatch"], "text": "Avoids routing-based worker creation"}
+          ]
+        },
+        {
+          "id": 14,
+          "prompt": "Ask the user about three related consequential choices for a new feature: the empty state, the API error behavior, and whether the route is shareable. Each answer can change the implementation.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["three", "3", "batch", "한 번에"], "text": "Batches related questions"},
+            {"type": "contains_any", "values": ["option", "choice", "선택"], "text": "Provides concrete choices"},
+            {"type": "contains_any", "values": ["wait", "approval", "decision"], "text": "Waits for the decision"}
+          ]
+        },
+        {
+          "id": 15,
+          "prompt": "A worker reports that the checkout fix is complete and says all tests pass, but provides no commands, output, or runtime evidence. Decide whether the frontend workflow can mark it verified.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["claim", "report", "주장"], "text": "Distinguishes a worker claim from evidence"},
+            {"type": "contains_any", "values": ["command", "output", "evidence", "실행"], "text": "Requires actual verification evidence"},
+            {"type": "contains_any", "values": ["not verified", "검증할 수 없", "확인 전"], "text": "Does not accept an unsupported completion claim"}
+          ]
+        },
+        {
+          "id": 16,
+          "prompt": "A consequential feature was implemented by one worker in an isolated lane. The main agent can inspect the integrated diff and has the required browser tool. Decide whether to create a separate review worker.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["main agent", "통합 후", "전체 변경"], "text": "Keeps final review with the main agent by default"},
+            {"type": "contains_any", "values": ["independent", "독립", "missing tool", "없는 도구"], "text": "Uses independent review as the gate"},
+            {"type": "contains_any", "values": ["not create", "only if", "필요할 때만"], "text": "Avoids an automatic review worker"}
+          ]
+        },
+        {
+          "id": 17,
+          "prompt": "A visual regression test fails because of a loading font and current timestamp. The changed button itself is visually different. Decide how to stabilize the check and update the baseline.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["font", "loading", "wait"], "text": "Waits for unstable resources"},
+            {"type": "contains_any", "values": ["freeze", "mask", "timestamp", "current time"], "text": "Controls known nondeterminism only"},
+            {"type": "contains_any", "values": ["intentional", "diff", "baseline", "not blanket", "일괄"], "text": "Inspects the changed surface before a narrow baseline update"}
+          ]
+        },
+        {
+          "id": 18,
+          "prompt": "Add a consequential frontend feature to a repository whose existing durable project memory lives under knowledge/domain.md and knowledge/decisions/. There is no docs directory. Use the repository convention and do not create a new docs tree.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["knowledge/", "knowledge", "existing convention", "canonical"], "text": "Respects the repository's existing documentation convention"},
+            {"type": "contains_any", "values": ["do not create", "does not create", "not create", "ask"], "text": "Avoids implicit documentation scaffolding"}
           ]
         }
       ]
