@@ -1,7 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "fe-dudu",
-  "version": "0.2.2",
   "description": "Frontend engineering and workflow orchestration Agent Skills for TypeScript and React",
   "owner": {
     "name": "fe-dudu"
@@ -11,7 +10,6 @@
       "name": "frontend-engineering",
       "source": "./skills/frontend-engineering",
       "description": "Standalone TypeScript and React implementation rules for readable, explicit, and predictable frontend code.",
-      "version": "0.2.1",
       "author": {
         "name": "fe-dudu"
       },
@@ -33,7 +31,6 @@
       "name": "oh-my-frontend",
       "source": "./skills/oh-my-frontend",
       "description": "Lightweight frontend triage and orchestration for risk classification, project memory, consequential decisions, safe parallel work, and runtime evidence.",
-      "version": "0.2.0",
       "author": {
         "name": "fe-dudu"
       },

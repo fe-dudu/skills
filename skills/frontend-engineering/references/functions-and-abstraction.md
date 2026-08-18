@@ -10,6 +10,10 @@
 - Keep the physical distance between a function and its use short.
 - Separate create and update flows into different components or functions when their responsibilities, validation, API contracts, or side effects differ.
 - Abstract implementation details only when the abstraction communicates domain intent or defines a contract that callers use. A wrapper that owns behavior can improve readability; a pass-through wrapper or HOC that only hides code adds indirection.
+- Design public React abstractions declaratively: accept desired state or configuration and expose operations named after user or domain intent, rather than requiring callers to coordinate refs, handlers, and effects.
+- Keep an abstraction's public surface small. Add an option or return field only for a real use case; prefer composable primitives over feature-heavy helpers.
+- Do not create generic lifecycle wrappers such as `useMount` or `useEffectOnce`. Use a purpose-specific hook for a real external synchronization problem and keep setup and cleanup explicit.
+- For reusable hooks, inject external clients, fetchers, or clocks when practical instead of importing project-specific implementations inside the abstraction. This improves testability and portability.
 - Keep hidden side effects such as logging, analytics, or synchronization outside a function unless callers can infer the effect from its name and contract and the effect is required for its responsibility.
 
 Keep a short input handler beside the element:

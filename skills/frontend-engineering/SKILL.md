@@ -48,6 +48,8 @@ Use these rules as the default style for frontend work. Optimize for code that i
 - Prioritize correctness, accessibility, security, explicit user requirements, and repository conventions.
 - Judge maintainability through four competing dimensions: readability, predictability, cohesion, and coupling. State which dimension a change improves when the tradeoff is not obvious; do not optimize one dimension blindly.
 - Prefer readable, explicit, local code over clever compression and premature abstraction. Keep short, simple one-use expressions inline; extract values when complexity, reuse, domain meaning, type clarity, or branch clarity justifies the name.
+- Design public React abstractions declaratively: accept desired state or configuration, expose intent-oriented operations, and avoid making every caller coordinate the same refs, handlers, and effects.
+- Keep React abstractions small and lifecycle-safe. Prefer purpose-specific hooks for external synchronization; do not recreate generic mount or effect lifecycles or hide imperative work behind pass-through wrappers.
 - Generalize only when code has the same responsibility, inputs, outputs, and is expected to change together. Prefer duplication when behavior may diverge; prefer cohesion when related code must change together.
 - Keep changes small. Verify user-visible behavior and domain outcomes.
 - Read the relevant reference before changing code. Keep exceptions narrow and visible in the code's names and structure.

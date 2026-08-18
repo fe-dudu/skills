@@ -3,6 +3,7 @@
 - Do not write explanatory comments for code whose intent can be expressed through names and structure.
 - Use `TODO` only for actionable unfinished work.
 - Keep comments for constraints, decisions, or external facts that cannot be made clear in the code itself; do not use them as a substitute for clarity.
+- Document exported hooks, components, and functions when consumers need a contract that is not obvious from the signature. Include purpose, meaningful parameters and return values, and a short example for reusable or library-facing APIs; do not add ceremonial JSDoc to local code.
 
 Comment the reason, not the syntax:
 
