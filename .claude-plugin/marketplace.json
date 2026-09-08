@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "fe-dudu",
-  "description": "Frontend engineering and workflow orchestration Agent Skills for TypeScript and React",
+  "description": "Agent Skills for TypeScript, React, Tailwind, and coordinated frontend work",
   "owner": {
     "name": "fe-dudu"
   },
@@ -23,6 +23,26 @@
         "async-resilience",
         "coding-style",
         "agent-skills"
+      ],
+      "category": "development",
+      "strict": false
+    },
+    {
+      "name": "tailwind-classname-categorization",
+      "source": "./skills/tailwind-classname-categorization",
+      "description": "Groups long, multi-concern Tailwind className values through an existing compatible classname helper. Preserves dynamic values and conflict-sensitive order; does not sort canonical class order or implement a helper.",
+      "author": {
+        "name": "fe-dudu"
+      },
+      "repository": "https://github.com/fe-dudu/skills",
+      "keywords": [
+        "frontend",
+        "tailwind",
+        "classname",
+        "cn",
+        "cva",
+        "styling",
+        "readability"
       ],
       "category": "development",
       "strict": false

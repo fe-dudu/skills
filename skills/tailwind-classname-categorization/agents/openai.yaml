@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tailwind Classname Categorization"
+  short_description: "Group long Tailwind className values with an existing helper"
+  default_prompt: "Use $tailwind-classname-categorization when a long Tailwind className has multiple concerns and an existing compatible helper can group them."
