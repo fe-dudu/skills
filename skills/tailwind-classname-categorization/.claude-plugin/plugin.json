@@ -1,0 +1,8 @@
+{
+  "name": "tailwind-classname-categorization",
+  "version": "0.1.0",
+  "description": "Groups long, multi-concern Tailwind className values through an existing compatible classname helper. Preserves dynamic values and conflict-sensitive order; does not sort canonical class order or implement a helper.",
+  "author": {
+    "name": "fe-dudu"
+  }
+}

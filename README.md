@@ -3,12 +3,13 @@
 [![skills.sh](https://skills.sh/b/fe-dudu/skills)](https://skills.sh/fe-dudu/skills)
 [![Claude Code Marketplace](https://img.shields.io/badge/Claude%20Code-Marketplace-8A63D2)](./.claude-plugin/marketplace.json)
 
-Two-layer Agent Skills for TypeScript, React, and coordinated frontend work.
-Use `oh-my-frontend` as the lightweight triage entry for frontend tasks. It may
-classify mechanical work as Level 0 and adds memory, approval, workers, or
-specialist evidence only when risk requires them. Use `frontend-engineering` for
-implementation rules. Each skill has a short `SKILL.md`; detailed guidance is
-loaded from references only when needed.
+Three complementary Agent Skills for TypeScript, React, and Tailwind frontend
+work. Use `oh-my-frontend` as the lightweight triage entry for frontend tasks,
+`frontend-engineering` for implementation rules, and
+`tailwind-classname-categorization` for related work on long, multi-concern
+Tailwind `className` values when an existing compatible helper can group them.
+Each skill has a short `SKILL.md`; detailed guidance is loaded from references
+only when needed.
 
 ## Skills
 
@@ -16,6 +17,7 @@ loaded from references only when needed.
 | --- | --- |
 | [frontend-engineering](./skills/frontend-engineering/) | Standalone readable, explicit TypeScript and React implementation rules |
 | [oh-my-frontend](./skills/oh-my-frontend/) | Frontend triage and risk-based orchestration layer |
+| [tailwind-classname-categorization](./skills/tailwind-classname-categorization/) | Semantic grouping of long Tailwind className values through existing helpers |
 
 <details>
 <summary><strong>frontend-engineering</strong> — Code principles and implementation quality</summary>
@@ -45,9 +47,22 @@ implementation rules.
 - Data fetching, routing, performance, security, responsive UI, forms, i18n, compatibility, and observability routing
 - Risk-based testing without mandatory TDD or excessive test code
 
-Korean mirrors under `docs/*.ko/` are local reading notes and are not published or included in installed packages.
-
 Start with [SKILL.md](./skills/oh-my-frontend/SKILL.md).
+</details>
+
+<details>
+<summary><strong>tailwind-classname-categorization</strong> — Tailwind className readability</summary>
+Groups long, multi-concern Tailwind `className` values through an existing
+compatible classname helper. It preserves dynamic values and conflict-sensitive
+order; it does not sort canonical class order, format line breaks, or implement
+a helper.
+
+- Tailwind utility categories and variant buckets
+- Tailwind v3/v4 prefix, separator, and important syntax
+- State, responsive, arbitrary, and container-query variants
+- Safe handling of helper and `cva()` structures
+
+Start with [SKILL.md](./skills/tailwind-classname-categorization/SKILL.md).
 </details>
 
 ## Install
@@ -63,13 +78,15 @@ Install one skill:
 ```bash
 npx skills add fe-dudu/skills --skill frontend-engineering
 # or: npx skills add fe-dudu/skills --skill oh-my-frontend
+# or: npx skills add fe-dudu/skills --skill tailwind-classname-categorization
 ```
 
-Use both when the task needs implementation rules plus orchestration:
+Use multiple skills when the task spans their scopes:
 
 ```bash
 npx skills add fe-dudu/skills --skill frontend-engineering
 npx skills add fe-dudu/skills --skill oh-my-frontend
+npx skills add fe-dudu/skills --skill tailwind-classname-categorization
 ```
 
 Install through the Claude Code plugin CLI:
@@ -78,6 +95,7 @@ Install through the Claude Code plugin CLI:
 claude plugin marketplace add fe-dudu/skills
 claude plugin install frontend-engineering@fe-dudu
 claude plugin install oh-my-frontend@fe-dudu
+claude plugin install tailwind-classname-categorization@fe-dudu
 ```
 
 Or run the plugin commands inside Claude Code:
@@ -86,6 +104,7 @@ Or run the plugin commands inside Claude Code:
 /plugin marketplace add fe-dudu/skills
 /plugin install frontend-engineering@fe-dudu
 /plugin install oh-my-frontend@fe-dudu
+/plugin install tailwind-classname-categorization@fe-dudu
 ```
 
 The repository also includes the Claude marketplace catalog at

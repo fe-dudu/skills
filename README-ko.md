@@ -3,7 +3,11 @@
 [![skills.sh](https://skills.sh/b/fe-dudu/skills)](https://skills.sh/fe-dudu/skills)
 [![Claude Code Marketplace](https://img.shields.io/badge/Claude%20Code-Marketplace-8A63D2)](./.claude-plugin/marketplace.json)
 
-TypeScript, React, 협업형 프론트엔드 작업을 위한 두 계층 Agent Skills입니다. `oh-my-frontend`는 프론트엔드 task의 가벼운 triage 진입 계층이며, 명확한 기계적 변경은 Level 0으로 끝내고 위험이 있을 때만 memory, 승인, Worker, specialist evidence를 추가합니다. 구현 규칙은 `frontend-engineering`에 둡니다. 각 스킬은 짧은 `SKILL.md`를 제공하며, 상세 지침은 필요할 때만 reference에서 읽습니다.
+TypeScript, React, Tailwind, 협업형 프론트엔드 작업을 위한 세 가지 Agent Skills입니다.
+`oh-my-frontend`는 프론트엔드 task의 가벼운 triage 진입 계층이며, `frontend-engineering`은 구현 규칙을 담당합니다.
+`tailwind-classname-categorization`은 기존 호환 helper로 그룹화할 수 있는 여러
+utility category가 섞인 긴 Tailwind `className` 관련 작업에 적용합니다. 각
+스킬은 짧은 `SKILL.md`를 제공하며, 상세 지침은 필요할 때만 reference에서 읽습니다.
 
 ## 스킬
 
@@ -11,6 +15,7 @@ TypeScript, React, 협업형 프론트엔드 작업을 위한 두 계층 Agent S
 | --- | --- |
 | [frontend-engineering](./skills/frontend-engineering/) | 읽기 쉽고 명확하며 예측 가능한 TypeScript·React 구현 원칙입니다. |
 | [oh-my-frontend](./skills/oh-my-frontend/) | 프론트엔드 triage·위험 기반 orchestration 계층입니다. |
+| [tailwind-classname-categorization](./skills/tailwind-classname-categorization/) | 기존 helper를 통한 긴 Tailwind className semantic grouping |
 
 <details>
 <summary><strong>frontend-engineering</strong> — 코드 원칙과 구현 품질</summary>
@@ -34,9 +39,21 @@ TypeScript, React, 협업형 프론트엔드 작업을 위한 두 계층 Agent S
 - Data fetching, routing, performance, security, responsive UI, form, i18n, compatibility, observability를 라우팅합니다.
 - TDD나 과도한 테스트 코드를 강제하지 않고 위험 기반으로 테스트합니다.
 
-`docs/*.ko/`의 한국어 mirror는 로컬 열람용이며 공개하거나 설치 패키지에 포함하지 않습니다.
-
 [SKILL.md](./skills/oh-my-frontend/SKILL.md)부터 읽습니다.
+</details>
+
+<details>
+<summary><strong>tailwind-classname-categorization</strong> — Tailwind className 가독성</summary>
+프로젝트의 기존 호환 classname helper를 통해 여러 utility category가 섞인 긴
+Tailwind `className`을 semantic group으로 분류합니다. 동적 값과 conflict-sensitive
+순서를 보존하며 canonical class sort, 줄바꿈, helper 구현은 하지 않습니다.
+
+- Tailwind utility category와 variant bucket
+- Tailwind v3/v4 prefix, separator, important 문법
+- state, responsive, arbitrary, container-query variant
+- helper·`cva()` 구조 보존 규칙
+
+[SKILL.md](./skills/tailwind-classname-categorization/SKILL.md)부터 읽습니다.
 </details>
 
 ## 설치
@@ -52,13 +69,15 @@ npx skills add fe-dudu/skills
 ```bash
 npx skills add fe-dudu/skills --skill frontend-engineering
 # 또는: npx skills add fe-dudu/skills --skill oh-my-frontend
+# 또는: npx skills add fe-dudu/skills --skill tailwind-classname-categorization
 ```
 
-두 스킬이 모두 필요한 작업에서는 다음 명령을 사용합니다.
+범위가 여러 스킬에 걸치는 작업에서는 다음 명령을 사용합니다.
 
 ```bash
 npx skills add fe-dudu/skills --skill frontend-engineering
 npx skills add fe-dudu/skills --skill oh-my-frontend
+npx skills add fe-dudu/skills --skill tailwind-classname-categorization
 ```
 
 Claude Code plugin CLI로 설치합니다.
@@ -67,6 +86,7 @@ Claude Code plugin CLI로 설치합니다.
 claude plugin marketplace add fe-dudu/skills
 claude plugin install frontend-engineering@fe-dudu
 claude plugin install oh-my-frontend@fe-dudu
+claude plugin install tailwind-classname-categorization@fe-dudu
 ```
 
 또는 Claude Code 내부에서 plugin 명령을 실행합니다.
@@ -75,6 +95,7 @@ claude plugin install oh-my-frontend@fe-dudu
 /plugin marketplace add fe-dudu/skills
 /plugin install frontend-engineering@fe-dudu
 /plugin install oh-my-frontend@fe-dudu
+/plugin install tailwind-classname-categorization@fe-dudu
 ```
 
 이 저장소에는 Claude marketplace catalog인 [`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json)도 포함되어 있습니다.

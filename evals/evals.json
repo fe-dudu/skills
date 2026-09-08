@@ -172,6 +172,182 @@
             {"type": "contains_any", "values": ["production", "throttl", "measure", "profile"], "text": "Uses representative performance measurement"},
             {"type": "contains_any", "values": ["speculative", "unnecessary", "remove", "referential stability"], "text": "Rejects blanket memoization"}
           ]
+        },
+        {
+          "id": 17,
+          "prompt": "Review a change to a shared useCartTotal hook used by checkout, the cart drawer, and the order summary. Its return contract changes from a number to { value, formatted }, but the proposal updates only checkout and adds null fallbacks in the other callers.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["every caller", "all callers", "call sites", "consumers"], "text": "Audits every shared-code consumer"},
+            {"type": "contains_any", "values": ["shared contract", "public API", "return contract"], "text": "Recognizes the contract change"},
+            {"type": "contains_any", "values": ["owning boundary", "owner", "shared hook", "source"], "text": "Fixes the shared owner instead of callers only"},
+            {"type": "contains_any", "values": ["regression", "focused test", "nearest test"], "text": "Requests a nearby regression check"}
+          ]
+        },
+        {
+          "id": 18,
+          "prompt": "Implement a one-word copy typo fix in an existing React card. The working tree also contains unrelated formatting changes and a pending package upgrade. Keep the requested change scoped.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["scope", "in scope", "requested change"], "text": "Keeps the change scoped"},
+            {"type": "contains_any", "values": ["unrelated", "formatting", "package", "dependency"], "text": "Identifies unrelated work"},
+            {"type": "contains_any", "values": ["separate", "report", "do not include", "not include"], "text": "Separates adjacent work"},
+            {"type": "contains_any", "values": ["minimal", "small", "only"], "text": "Preserves a minimal diff"}
+          ]
+        },
+        {
+          "id": 19,
+          "prompt": "Review a React form that needs a date field and server data loading. The repository already uses native <input type=\"date\"> controls and an established query hook, but a proposal adds a date-picker dependency and a new generic useFetch wrapper.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["native", "input type", "browser"], "text": "Checks the native platform option"},
+            {"type": "contains_any", "values": ["existing pattern", "reuse", "established query", "shared query"], "text": "Reuses repository patterns"},
+            {"type": "contains_any", "values": ["date picker", "useFetch", "generic", "dependency"], "text": "Rejects unnecessary indirection or dependency"},
+            {"type": "contains_any", "values": ["distinct contract", "real duplication", "not needed", "unnecessary"], "text": "Requires a concrete reason to add abstraction"}
+          ]
+        },
+        {
+          "id": 20,
+          "prompt": "Fix a React checkout submit flow that allows a second click while the first request is in flight. The change is non-trivial, and the proposal asks for a broad test suite covering every internal helper. Recommend the smallest behavior-level regression check.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["focused regression", "behavior test", "user-visible", "domain result"], "text": "Chooses a focused behavior check"},
+            {"type": "contains_any", "values": ["in flight", "in-flight", "duplicate", "second click"], "text": "Covers the actual failure mode"},
+            {"type": "contains_any", "values": ["not broad", "small", "minimal", "proportional"], "text": "Keeps verification proportional"},
+            {"type": "contains_any", "values": ["implementation detail", "call count", "internal helper"], "text": "Avoids implementation-detail tests"}
+          ]
+        }
+      ]
+    },
+    {
+      "skill_name": "tailwind-classname-categorization",
+      "skill_path": "../skills/tailwind-classname-categorization",
+      "evals": [
+        {
+          "id": 0,
+          "prompt": "Refactor a long Tailwind className containing layout, spacing, typography, background, hover, and responsive utilities into semantic arguments of the project's existing cn() helper. Keep the class tokens unchanged.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["cn()", "cn", "classname function"], "text": "Uses the existing classname function"},
+            {"type": "contains_any", "values": ["semantic", "category", "group"], "text": "Creates semantic groups"},
+            {"type": "contains_any", "values": ["preserve", "unchanged", "token"], "text": "Preserves class tokens"}
+          ]
+        },
+        {
+          "id": 1,
+          "prompt": "Categorize static class values in a cva() definition that includes base classes, variant values, compound classes, a dark state, and a container breakpoint. Preserve variant keys, dynamic values, and caller overrides.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["cva", "variant"], "text": "Handles cva structure"},
+            {"type": "contains_any", "values": ["responsive", "container", "breakpoint"], "text": "Handles responsive variants"},
+            {"type": "contains_any", "values": ["dynamic", "override", "preserve"], "text": "Protects dynamic and override values"}
+          ]
+        },
+        {
+          "id": 2,
+          "prompt": "Sort a short Tailwind class list into Tailwind's canonical CSS order without changing its classname function structure.",
+          "should_trigger": false
+        },
+        {
+          "id": 3,
+          "prompt": "Format JSX line breaks and indentation around a className value. Do not categorize or regroup its classes.",
+          "should_trigger": false
+        },
+        {
+          "id": 4,
+          "prompt": "Group a long Tailwind className into cn() arguments, but the project has no established classname helper or import pattern. Decide how to proceed.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["do not invent", "no established", "ask", "unchanged"], "text": "Avoids inventing a classname helper"}
+          ]
+        },
+        {
+          "id": 5,
+          "prompt": "Categorize a Tailwind v4 class list from a project using prefix(tw): tw:flex tw:bg-white tw:hover:bg-gray-100 tw:md:flex-row tw:bg-red-500! and tw:[&:nth-child(2)]:underline. Preserve the prefix, trailing important marker, arbitrary selector, and full tokens.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["v4", "version", "prefix"], "text": "Detects Tailwind v4 prefix syntax"},
+            {"type": "contains_any", "values": ["important", "trailing", "!"], "text": "Preserves v4 important syntax"},
+            {"type": "contains_any", "values": ["arbitrary selector", "nth-child", "bracket"], "text": "Preserves arbitrary selector syntax"},
+            {"type": "contains_any", "values": ["preserve", "unchanged", "full token"], "text": "Preserves complete tokens"},
+            {"type": "contains", "value": "tw:[&:nth-child(2)]:underline", "text": "Keeps the exact arbitrary variant token"}
+          ]
+        },
+        {
+          "id": 6,
+          "prompt": "Categorize a Tailwind v3 class list from a project with prefix: 'tw-' and separator: '_': md_tw-flex hover_tw-bg-red-500 !tw-font-bold. Do not normalize it into Tailwind v4 syntax.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["v3", "version"], "text": "Detects Tailwind v3 syntax"},
+            {"type": "contains_any", "values": ["separator", "_"], "text": "Uses the configured variant separator"},
+            {"type": "contains_any", "values": ["tw-", "prefix"], "text": "Handles the v3 prefix position"},
+            {"type": "contains_any", "values": ["do not normalize", "preserve", "unchanged"], "text": "Avoids cross-version rewriting"},
+            {"type": "contains", "value": "hover_tw-bg-red-500", "text": "Keeps the exact v3 prefixed token"}
+          ]
+        },
+        {
+          "id": 7,
+          "prompt": "Regroup static classes inside cn() where cn() calls clsx() and twMerge(). The original order contains p-2 before p-4, while a later caller override is passed as className. Keep the twMerge winner and do not force className to the end unless the helper contract requires it.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["twMerge", "merge", "helper implementation"], "text": "Inspects helper merge behavior"},
+            {"type": "contains_any", "values": ["conflict", "winner", "p-2", "p-4"], "text": "Protects the conflict winner"},
+            {"type": "contains_any", "values": ["override", "position", "className"], "text": "Preserves override semantics"},
+            {"type": "contains", "value": "twMerge", "text": "Names the actual merge helper"}
+          ]
+        },
+        {
+          "id": 8,
+          "prompt": "Categorize a long Tailwind v4 value containing inset-shadow-sm, inset-ring-2, mask-[url('/shape.svg')], mask-center, bg-radial, bg-conic, border, ring, outline, and transition. Use exact utility categories before broad prefixes.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["inset-shadow", "effects"], "text": "Classifies inset shadows as effects"},
+            {"type": "contains_any", "values": ["inset-ring", "borders"], "text": "Classifies inset rings as borders"},
+            {"type": "contains_any", "values": ["mask", "effects"], "text": "Classifies mask utilities"},
+            {"type": "contains_any", "values": ["exact", "broad", "disambiguation"], "text": "Uses exact rules before broad prefixes"},
+            {"type": "contains", "value": "inset-shadow-sm", "text": "Keeps the exact inset shadow token"}
+          ]
+        },
+        {
+          "id": 9,
+          "prompt": "Categorize static positional class strings in clsx({ 'flex p-4': enabled, 'text-sm': true }, 'bg-white') without changing the object shape, conditional keys, or dynamic values.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["clsx", "object syntax", "object"], "text": "Recognizes clsx object syntax"},
+            {"type": "contains_any", "values": ["conditional", "key", "shape", "preserve"], "text": "Preserves conditional object structure"},
+            {"type": "contains_any", "values": ["dynamic", "static positional", "unchanged"], "text": "Separates dynamic and static values"},
+            {"type": "contains", "value": "flex p-4", "text": "Keeps the exact conditional class value"}
+          ]
+        },
+        {
+          "id": 10,
+          "prompt": "Clean up a component with a long Tailwind className mixing layout, spacing, typography, surface, hover, and responsive styles. Keep behavior unchanged and use the repository's existing cn helper.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["readability", "semantic", "group"], "text": "Applies to related readability work without an explicit categorize request"},
+            {"type": "contains_any", "values": ["cn", "existing helper"], "text": "Uses the established classname helper"},
+            {"type": "contains_any", "values": ["preserve", "unchanged", "behavior"], "text": "Preserves existing behavior"}
+          ]
+        },
+        {
+          "id": 11,
+          "prompt": "Clean up a long Tailwind className, but the repository's existing className helper accepts one string argument only and has no variadic or array form. Do not change the helper API; decide whether categorization can proceed.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["precondition", "signature", "argument shape", "compatible"], "text": "Checks the helper precondition"},
+            {"type": "contains_any", "values": ["one string", "single argument", "not support", "unsupported"], "text": "Recognizes the incompatible helper shape"},
+            {"type": "contains_any", "values": ["unchanged", "do not change", "leave", "no helper refactor"], "text": "Leaves the code and helper API unchanged"}
+          ]
+        },
+        {
+          "id": 12,
+          "prompt": "The repository formatter uses printWidth 100, and a multi-concern Tailwind className is on a 160-character source line. Clean it up with the existing cn helper while preserving behavior.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["printWidth", "line width", "max-len", "formatter"], "text": "Uses the project's line-width convention"},
+            {"type": "contains_any", "values": ["multiple concerns", "multi-concern", "group", "semantic"], "text": "Recognizes the multi-concern condition"},
+            {"type": "contains_any", "values": ["cn", "existing helper"], "text": "Uses the established helper"}
+          ]
         }
       ]
     },
