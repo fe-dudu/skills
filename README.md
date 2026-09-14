@@ -61,6 +61,7 @@ a helper.
 - Tailwind v3/v4 prefix, separator, and important syntax
 - State, responsive, arbitrary, and container-query variants
 - Safe handling of helper and `cva()` structures
+- Optional local Biome GritQL and ESLint rule examples for category enforcement
 
 Start with [SKILL.md](./skills/tailwind-classname-categorization/SKILL.md).
 </details>
