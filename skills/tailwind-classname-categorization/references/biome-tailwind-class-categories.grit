@@ -1,0 +1,385 @@
+engine biome(1.0)
+language js(typescript, jsx)
+
+function category($class_group) {
+  if ($class_group <: r"^$") { return "empty" },
+  $modifier_category_name = modifier_category($class_group),
+  if ($modifier_category_name <: r"^(?:state|responsive|mixed)$") { return $modifier_category_name },
+  return base_category($class_group)
+}
+
+function category_for_group($class_group, $utility_pattern, $category_name) {
+  if ($class_group <: r`^(?:!?-?(?:$utility_pattern)(?:!)?)(?: (?:!?-?(?:$utility_pattern)(?:!)?))*$`) {
+    return $category_name
+  },
+  return "none"
+}
+
+function responsive_variant_pattern() {
+  $responsive_variants = "sm|md|lg|xl|2xl|min-\\[[^ ]+\\]|max-\\[[^ ]+\\]",
+  $responsive_variants += "|max-(?:sm|md|lg|xl|2xl)",
+  $responsive_variants += "|@(?:max-)?(?:3xs|2xs|xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl)(?:/[^ :]+)?",
+  $responsive_variants += "|@(?:min|max)-\\[[^ ]+\\](?:/[^ :]+)?",
+  $responsive_variants += "|\\[@media[^ ]*(?:width|height|aspect-ratio)[^ ]*\\]",
+  $responsive_variants += "|\\[@container[^ ]+\\]",
+  return $responsive_variants
+}
+
+function all_responsive_classes($class_group) {
+  $responsive_variant = responsive_variant_pattern(),
+  if ($class_group <: r`^(?:(?:[A-Za-z0-9_@*/-]+(?:\\[[^ ]+\\])?|\\[[^ ]+\\]):)*(?:$responsive_variant):(?:(?:[A-Za-z0-9_@*/-]+(?:\\[[^ ]+\\])?|\\[[^ ]+\\]):)*[^ ]+(?: (?:(?:(?:[A-Za-z0-9_@*/-]+(?:\\[[^ ]+\\])?|\\[[^ ]+\\]):)*(?:$responsive_variant):(?:(?:[A-Za-z0-9_@*/-]+(?:\\[[^ ]+\\])?|\\[[^ ]+\\]):)*[^ ]+))*$`) {
+    return "yes"
+  },
+  return "no"
+}
+
+function contains_responsive_class($class_group) {
+  $responsive_variant = responsive_variant_pattern(),
+  if ($class_group <: r`.*(?:^| )(?:(?:(?:[A-Za-z0-9_@*/-]+(?:\\[[^ ]+\\])?|\\[[^ ]+\\]):)*(?:$responsive_variant):)[^ ]+.*`) {
+    return "yes"
+  },
+  return "no"
+}
+
+function all_state_classes($class_group) {
+  if ($class_group <: r"^(?:(?:(?:[A-Za-z0-9_@*/-]+(?:\[[^ ]+\])?|\[[^ ]+\]):)+[^ ]+)(?: (?:(?:(?:[A-Za-z0-9_@*/-]+(?:\[[^ ]+\])?|\[[^ ]+\]):)+[^ ]+))*$") {
+    return "yes"
+  },
+  return "no"
+}
+
+function modifier_category($class_group) {
+  $is_responsive = all_responsive_classes($class_group),
+  if ($is_responsive <: r"^yes$") { return "responsive" },
+  $has_responsive = contains_responsive_class($class_group),
+  if ($has_responsive <: r"^yes$") { return "mixed" },
+  $is_state = all_state_classes($class_group),
+  if ($is_state <: r"^yes$") { return "state" },
+  return "none"
+}
+
+function layout_category($class_group) {
+  $layout_utilities = "aspect-[^ ]+|columns-[^ ]+",
+  $layout_utilities += "|break-(?:before|after|inside)-[^ ]+|box-decoration-[^ ]+",
+  $layout_utilities += "|box-(?:border|content)|block|inline|inline-block|flow-root",
+  $layout_utilities += "|inline-flex|inline-grid|inline-table|contents|flex|grid|hidden",
+  $layout_utilities += "|list-item|table|table-(?:caption|cell|column|row|header-group|footer-group|row-group)",
+  $layout_utilities += "|float-[^ ]+|clear-[^ ]+|isolate|isolation-auto",
+  $layout_utilities += "|object-[^ ]+",
+  $layout_utilities += "|overflow-(?:auto|hidden|clip|visible|scroll|x-(?:auto|hidden|clip|visible|scroll)|y-(?:auto|hidden|clip|visible|scroll)|\\[[^ ]+\\]|x-\\[[^ ]+\\]|y-\\[[^ ]+\\])",
+  $layout_utilities += "|overscroll-[^ ]+",
+  $layout_utilities += "|static|fixed|absolute|relative|sticky",
+  $layout_utilities += "|inset(?:-[xyse])?-[^ ]+",
+  $layout_utilities += "|(?:top|right|bottom|left|start|end)-[^ ]+",
+  $layout_utilities += "|visible|invisible|collapse|z-[^ ]+|container",
+  $layout_utilities += "|@container(?:/[^ ]+)?|@container-size(?:/[^ ]+)?",
+  return category_for_group($class_group, $layout_utilities, "layout")
+}
+
+function flex_grid_category($class_group) {
+  $flex_grid_utilities = "basis-[^ ]+|flex-[^ ]+|grow(?:-[^ ]+)?|shrink(?:-[^ ]+)?",
+  $flex_grid_utilities += "|order-[^ ]+|grid-(?:cols|rows|flow)-[^ ]+",
+  $flex_grid_utilities += "|auto-(?:cols|rows)-[^ ]+|col-[^ ]+|row-[^ ]+",
+  $flex_grid_utilities += "|gap(?:-[xy])?-[^ ]+|justify-[^ ]+|items-[^ ]+",
+  $flex_grid_utilities += "|content-(?:center|between|around|evenly|start|end|stretch|baseline)",
+  $flex_grid_utilities += "|self-[^ ]+|place-(?:content|items|self)-[^ ]+",
+  return category_for_group($class_group, $flex_grid_utilities, "flex-grid")
+}
+
+function spacing_category($class_group) {
+  $spacing_utilities = "(?:m(?:[xyse])?|mbs|mbe|mt|mr|mb|ml|p(?:[xyse])?|pbs|pbe|pt|pr|pb|pl|space-[xy])-[^ ]+",
+  $spacing_utilities += "|space-[xy]-reverse",
+  return category_for_group($class_group, $spacing_utilities, "spacing")
+}
+
+function sizing_category($class_group) {
+  $sizing_utilities = "size-[^ ]+",
+  $sizing_utilities += "|(?:min-|max-)?(?:w|h)-[^ ]+",
+  $sizing_utilities += "|(?:min-|max-)?(?:inline-size|block-size)-[^ ]+",
+  return category_for_group($class_group, $sizing_utilities, "sizing")
+}
+
+function typography_category($class_group) {
+  $typography_utilities = "font-[^ ]+|text-[^ ]+|antialiased|subpixel-antialiased",
+  $typography_utilities += "|italic|not-italic|normal-nums|ordinal|slashed-zero",
+  $typography_utilities += "|lining-nums|oldstyle-nums|proportional-nums|tabular-nums",
+  $typography_utilities += "|diagonal-fractions|stacked-fractions|font-feature-[^ ]+",
+  $typography_utilities += "|tracking-[^ ]+|leading-[^ ]+|indent-[^ ]+|tab-[^ ]+",
+  $typography_utilities += "|align-(?:baseline|top|middle|bottom|text-top|text-bottom|sub|super)",
+  $typography_utilities += "|whitespace-[^ ]+|text-(?:wrap|nowrap|balance|pretty|ellipsis|clip)",
+  $typography_utilities += "|wrap-[^ ]+|break-(?:normal|words|all|keep)|overflow-wrap-[^ ]+",
+  $typography_utilities += "|hyphens-[^ ]+|truncate|line-clamp-[^ ]+",
+  $typography_utilities += "|list-(?:image-[^ ]+|inside|outside|none|disc|decimal)",
+  $typography_utilities += "|uppercase|lowercase|capitalize|normal-case",
+  $typography_utilities += "|underline|overline|line-through|no-underline",
+  $typography_utilities += "|decoration-[^ ]+|underline-offset-[^ ]+|content-\\[[^ ]+\\]",
+  return category_for_group($class_group, $typography_utilities, "typography")
+}
+
+function backgrounds_category($class_group) {
+  $background_utilities = "bg-(?:fixed|local|scroll|clip-[^ ]+|origin-[^ ]+|none)",
+  $background_utilities += "|bg-(?:linear-[^ ]+|radial(?:-[^ ]+)?|conic(?:-[^ ]+)?)",
+  $background_utilities += "|bg-(?:position|repeat|size)-[^ ]+|bg-[^ ]+",
+  $background_utilities += "|from-[^ ]+|via-[^ ]+|to-[^ ]+",
+  return category_for_group($class_group, $background_utilities, "backgrounds")
+}
+
+function borders_category($class_group) {
+  $border_utilities = "rounded(?:-[^ ]+)?|border(?:-[^ ]+)?|divide-[^ ]+",
+  $border_utilities += "|ring(?:-[^ ]+)?|inset-ring(?:-[^ ]+)?|outline(?:-[^ ]+)?",
+  return category_for_group($class_group, $border_utilities, "borders")
+}
+
+function effects_category($class_group) {
+  $effect_utilities = "shadow(?:-[^ ]+)?|inset-shadow-[^ ]+|text-shadow-[^ ]+",
+  $effect_utilities += "|opacity-[^ ]+|mix-blend-[^ ]+|bg-blend-[^ ]+|mask(?:-[^ ]+)?",
+  return category_for_group($class_group, $effect_utilities, "effects")
+}
+
+function filters_category($class_group) {
+  $filter_utilities = "filter|blur-[^ ]+|brightness-[^ ]+|contrast-[^ ]+",
+  $filter_utilities += "|drop-shadow-[^ ]+|grayscale-[^ ]+|hue-rotate-[^ ]+",
+  $filter_utilities += "|invert-[^ ]+|saturate-[^ ]+|sepia-[^ ]+",
+  $filter_utilities += "|backdrop-(?:filter|blur-[^ ]+|brightness-[^ ]+|contrast-[^ ]+)",
+  $filter_utilities += "|backdrop-(?:grayscale|hue-rotate|invert|opacity|saturate|sepia)-[^ ]+",
+  return category_for_group($class_group, $filter_utilities, "filters")
+}
+
+function tables_category($class_group) {
+  $table_utilities = "border-(?:collapse|separate|spacing(?:-[xy])?-[^ ]+)",
+  $table_utilities += "|table-(?:auto|fixed)|caption-(?:top|bottom)",
+  return category_for_group($class_group, $table_utilities, "tables")
+}
+
+function transitions_animation_category($class_group) {
+  $transition_utilities = "transition(?:-[^ ]+)?|transition-behavior-[^ ]+",
+  $transition_utilities += "|duration-[^ ]+|ease-[^ ]+|delay-[^ ]+|animate-[^ ]+",
+  return category_for_group($class_group, $transition_utilities, "transitions-animation")
+}
+
+function transforms_category($class_group) {
+  $transform_utilities = "backface-[^ ]+|perspective(?:-[^ ]+)?|rotate-[^ ]+",
+  $transform_utilities += "|scale-[^ ]+|skew-[^ ]+|translate-[^ ]+|zoom-[^ ]+",
+  $transform_utilities += "|transform(?:-[^ ]+)?|origin-[^ ]+",
+  return category_for_group($class_group, $transform_utilities, "transforms")
+}
+
+function interactivity_category($class_group) {
+  $interactivity_utilities = "accent-[^ ]+|appearance-[^ ]+|caret-[^ ]+",
+  $interactivity_utilities += "|color-scheme-[^ ]+|scheme-[^ ]+|cursor-[^ ]+",
+  $interactivity_utilities += "|field-sizing-[^ ]+|pointer-events-[^ ]+|resize(?:-[^ ]+)?",
+  $interactivity_utilities += "|select-[^ ]+|touch-[^ ]+",
+  $interactivity_utilities += "|scroll-(?:auto|smooth|m[xyse]?-[^ ]+|p[xyse]?-[^ ]+)",
+  $interactivity_utilities += "|scrollbar(?:-[^ ]+)?|snap-[^ ]+|will-change-[^ ]+",
+  return category_for_group($class_group, $interactivity_utilities, "interactivity")
+}
+
+function svg_category($class_group) {
+  $svg_utilities = "fill-[^ ]+|stroke-[^ ]+",
+  return category_for_group($class_group, $svg_utilities, "svg")
+}
+
+function accessibility_category($class_group) {
+  $accessibility_utilities = "sr-only|not-sr-only|forced-color-adjust-[^ ]+",
+  return category_for_group($class_group, $accessibility_utilities, "accessibility")
+}
+
+function contains_known_utility_name($class_group, $utility_names) {
+  if ($class_group <: r`.*(?:^| )!?-?(?:$utility_names)!?(?: |$).*`) { return "yes" },
+  return "no"
+}
+
+function contains_known_utility_prefix($class_group, $utility_prefixes) {
+  if ($class_group <: r`.*(?:^| )!?-?(?:$utility_prefixes)[^ ]+!?(?: |$).*`) { return "yes" },
+  return "no"
+}
+
+function mixed_utility_group($class_group) {
+  if ($class_group <: r"^[^ ]+$") { return "none" },
+  $known_utility_names = "block|inline|inline-block|flow-root|inline-flex|inline-grid|inline-table",
+  $known_utility_names += "|contents|flex|grid|hidden|list-item|table|isolate|isolation-auto",
+  $known_utility_names += "|static|fixed|absolute|relative|sticky|visible|invisible|collapse|container",
+  $known_utility_names += "|grow|shrink|antialiased|subpixel-antialiased|italic|not-italic",
+  $known_utility_names += "|normal-nums|ordinal|slashed-zero|lining-nums|oldstyle-nums",
+  $known_utility_names += "|proportional-nums|tabular-nums|diagonal-fractions|stacked-fractions",
+  $known_utility_names += "|truncate|text-ellipsis|text-clip|uppercase|lowercase|capitalize|normal-case",
+  $known_utility_names += "|underline|overline|line-through|no-underline",
+  $known_utility_names += "|rounded|border|ring|outline|filter|transition|transform",
+  $known_utility_names += "|sr-only|not-sr-only|scroll-auto|scroll-smooth|space-x-reverse|space-y-reverse",
+  $known_utility_prefixes = "aspect-|columns-|break-(?:before|after|inside)-|box-decoration-|box-",
+  $known_utility_prefixes += "|float-|clear-|object-|overflow-|overscroll-|inset(?:-[xyse])?-",
+  $known_utility_prefixes += "|(?:top|right|bottom|left|start|end)-|z-",
+  $known_utility_prefixes += "|basis-|flex-|grid-(?:cols|rows|flow)-|auto-(?:cols|rows)-",
+  $known_utility_prefixes += "|col-|row-|gap-|justify-|items-|content-|self-|place-",
+  $known_utility_prefixes += "|m(?:[xyse])?s?-|m(?:[xyse])?-|mbs-|mbe-",
+  $known_utility_prefixes += "|p(?:[xyse])?s?-|p(?:[xyse])?-|pbs-|pbe-|space-[xy]-",
+  $known_utility_prefixes += "|size-|(?:min-|max-)?(?:w|h)-|(?:min-|max-)?(?:inline-size|block-size)-",
+  $known_utility_prefixes += "|font-|text-|font-feature-|tracking-|leading-|indent-|tab-",
+  $known_utility_prefixes += "|align-(?:baseline|top|middle|bottom|text-top|text-bottom|sub|super)-",
+  $known_utility_prefixes += "|whitespace-|text-(?:wrap|nowrap|balance|pretty)-|wrap-",
+  $known_utility_prefixes += "|break-(?:normal|words|all|keep)-|overflow-wrap-|hyphens-|line-clamp-",
+  $known_utility_prefixes += "|list-(?:image-|inside|outside|none|disc|decimal)-",
+  $known_utility_prefixes += "|decoration-|underline-offset-|bg-|from-|via-|to-|divide-|rounded-|border-",
+  $known_utility_prefixes += "|ring-|inset-ring-|outline-|shadow-|inset-shadow-|text-shadow-",
+  $known_utility_prefixes += "|opacity-|mix-blend-|bg-blend-|mask-|blur-|brightness-|contrast-",
+  $known_utility_prefixes += "|drop-shadow-|grayscale-|hue-rotate-|invert-|saturate-|sepia-|backdrop-",
+  $known_utility_prefixes += "|table-(?:auto|fixed|caption|cell|column|row|header-group|footer-group|row-group)-",
+  $known_utility_prefixes += "|caption-(?:top|bottom)-|transition-|transition-behavior-",
+  $known_utility_prefixes += "|duration-|ease-|delay-|animate-|backface-|perspective-",
+  $known_utility_prefixes += "|rotate-|scale-|skew-|translate-|zoom-|transform-|origin-",
+  $known_utility_prefixes += "|accent-|appearance-|caret-|color-scheme-|scheme-|cursor-|field-sizing-",
+  $known_utility_prefixes += "|pointer-events-|resize-|select-|touch-|scroll-(?:auto|smooth|m|p)",
+  $known_utility_prefixes += "|scrollbar-|snap-|will-change-|fill-|stroke-|forced-color-adjust-",
+  $has_known_utility_name = contains_known_utility_name($class_group, $known_utility_names),
+  if ($has_known_utility_name <: r"^yes$") { return "mixed" },
+  $has_known_utility_prefix = contains_known_utility_prefix($class_group, $known_utility_prefixes),
+  if ($has_known_utility_prefix <: r"^yes$") { return "mixed" },
+  if ($class_group <: r".*(?:^| )!?-?content-\[[^ ]+!?(?: |$).*") { return "mixed" },
+  return "none"
+}
+
+function base_category($class_group) {
+  $category_name = tables_category($class_group),
+  if ($category_name <: r"^tables$") { return $category_name },
+  $category_name = effects_category($class_group),
+  if ($category_name <: r"^effects$") { return $category_name },
+  $category_name = borders_category($class_group),
+  if ($category_name <: r"^borders$") { return $category_name },
+  $category_name = typography_category($class_group),
+  if ($category_name <: r"^typography$") { return $category_name },
+  $category_name = layout_category($class_group),
+  if ($category_name <: r"^layout$") { return $category_name },
+  $category_name = flex_grid_category($class_group),
+  if ($category_name <: r"^flex-grid$") { return $category_name },
+  $category_name = spacing_category($class_group),
+  if ($category_name <: r"^spacing$") { return $category_name },
+  $category_name = sizing_category($class_group),
+  if ($category_name <: r"^sizing$") { return $category_name },
+  $category_name = backgrounds_category($class_group),
+  if ($category_name <: r"^backgrounds$") { return $category_name },
+  $category_name = filters_category($class_group),
+  if ($category_name <: r"^filters$") { return $category_name },
+  $category_name = transitions_animation_category($class_group),
+  if ($category_name <: r"^transitions-animation$") { return $category_name },
+  $category_name = transforms_category($class_group),
+  if ($category_name <: r"^transforms$") { return $category_name },
+  $category_name = interactivity_category($class_group),
+  if ($category_name <: r"^interactivity$") { return $category_name },
+  $category_name = svg_category($class_group),
+  if ($category_name <: r"^svg$") { return $category_name },
+  $category_name = accessibility_category($class_group),
+  if ($category_name <: r"^accessibility$") { return $category_name },
+  $category_name = mixed_utility_group($class_group),
+  if ($category_name <: r"^mixed$") { return $category_name },
+  return "custom"
+}
+
+function priority_code($category_name) {
+  if ($category_name <: r"^custom$") { return "A" },
+  if ($category_name <: r"^layout$") { return "B" },
+  if ($category_name <: r"^flex-grid$") { return "C" },
+  if ($category_name <: r"^spacing$") { return "D" },
+  if ($category_name <: r"^sizing$") { return "E" },
+  if ($category_name <: r"^typography$") { return "F" },
+  if ($category_name <: r"^backgrounds$") { return "G" },
+  if ($category_name <: r"^borders$") { return "H" },
+  if ($category_name <: r"^effects$") { return "I" },
+  if ($category_name <: r"^filters$") { return "J" },
+  if ($category_name <: r"^tables$") { return "K" },
+  if ($category_name <: r"^transitions-animation$") { return "L" },
+  if ($category_name <: r"^transforms$") { return "M" },
+  if ($category_name <: r"^interactivity$") { return "N" },
+  if ($category_name <: r"^svg$") { return "O" },
+  if ($category_name <: r"^accessibility$") { return "P" },
+  if ($category_name <: r"^state$") { return "Q" },
+  if ($category_name <: r"^responsive$") { return "R" },
+  if ($category_name <: r"^override$") { return "S" },
+  return "0"
+}
+
+function is_priority_inversion($first_group, $second_group) {
+  $first_category = category($first_group),
+  $second_category = category($second_group),
+  $first_priority_code = priority_code($first_category),
+  $second_priority_code = priority_code($second_category),
+  $category_pair = join(list=[$first_priority_code, $second_priority_code], separator=""),
+  if (or {
+    $category_pair <: r"^(?:[B-S]A|[C-S]B|[D-S]C|[E-S]D|[F-S]E|[G-S]F)$",
+    $category_pair <: r"^(?:[H-S]G|[I-S]H|[J-S]I|[K-S]J|[L-S]K|[M-S]L)$",
+    $category_pair <: r"^(?:[N-S]M|[O-S]N|[P-S]O|[Q-S]P|[R-S]Q|SQ)$"
+  }) { return "yes" },
+  return "no"
+}
+
+function is_within_class_helper($node) {
+  if ($node <: within `cn($_)` ) { return "yes" },
+  if ($node <: within `cva($_)` ) { return "yes" },
+  return "no"
+}
+
+or {
+  `'$group'` as $class_node where {
+    $is_in_helper = is_within_class_helper($class_node),
+    $is_in_helper <: r"^yes$",
+    $group_category_name = category($group),
+    $group_category_name <: r"^mixed$",
+    register_diagnostic(span=$class_node, message="This class group spans categories; split it into category groups.", severity="warn")
+  },
+  `[$..., '$first', $..., '$second', $...]` as $array where {
+    $is_in_helper = is_within_class_helper($array),
+    $is_in_helper <: r"^yes$",
+    $has_priority_inversion = is_priority_inversion($first, $second),
+    $has_priority_inversion <: r"^yes$",
+    register_diagnostic(span=$array, message="Category groups are not in priority order.", severity="warn")
+  },
+  `[$..., $_ && '$first', $..., '$second', $...]` as $array where {
+    $is_in_helper = is_within_class_helper($array),
+    $is_in_helper <: r"^yes$",
+    $has_priority_inversion = is_priority_inversion($first, $second),
+    $has_priority_inversion <: r"^yes$",
+    register_diagnostic(span=$array, message="Category groups are not in priority order.", severity="warn")
+  },
+  `[$..., '$first', $..., $_ && '$second', $...]` as $array where {
+    $is_in_helper = is_within_class_helper($array),
+    $is_in_helper <: r"^yes$",
+    $has_priority_inversion = is_priority_inversion($first, $second),
+    $has_priority_inversion <: r"^yes$",
+    register_diagnostic(span=$array, message="Category groups are not in priority order.", severity="warn")
+  },
+  `[$..., $_ && '$first', $..., $_ && '$second', $...]` as $array where {
+    $is_in_helper = is_within_class_helper($array),
+    $is_in_helper <: r"^yes$",
+    $has_priority_inversion = is_priority_inversion($first, $second),
+    $has_priority_inversion <: r"^yes$",
+    register_diagnostic(span=$array, message="Category groups are not in priority order.", severity="warn")
+  },
+  `cn($..., '$first', $..., '$second', $...)` as $call where {
+    $has_priority_inversion = is_priority_inversion($first, $second),
+    $has_priority_inversion <: r"^yes$",
+    register_diagnostic(span=$call, message="cn() class groups are not in priority order.", severity="warn")
+  },
+  `cn($..., $_ && '$first', $..., '$second', $...)` as $call where {
+    $has_priority_inversion = is_priority_inversion($first, $second),
+    $has_priority_inversion <: r"^yes$",
+    register_diagnostic(span=$call, message="cn() class groups are not in priority order.", severity="warn")
+  },
+  `cn($..., '$first', $..., $_ && '$second', $...)` as $call where {
+    $has_priority_inversion = is_priority_inversion($first, $second),
+    $has_priority_inversion <: r"^yes$",
+    register_diagnostic(span=$call, message="cn() class groups are not in priority order.", severity="warn")
+  },
+  `cn($..., $_ && '$first', $..., $_ && '$second', $...)` as $call where {
+    $has_priority_inversion = is_priority_inversion($first, $second),
+    $has_priority_inversion <: r"^yes$",
+    register_diagnostic(span=$call, message="cn() class groups are not in priority order.", severity="warn")
+  },
+  `cn($..., className, $..., $_)` as $call where {
+    register_diagnostic(span=$call, message="Caller className override must follow categorized class groups.", severity="warn")
+  },
+  JsxAttribute() as $attribute where {
+    $attribute <: r"^className=\"([^\"]{109,})\"$"($class_group),
+    $category_name = category($class_group),
+    $category_name <: r"^mixed$",
+    register_diagnostic(span=$attribute, message="This className attribute exceeds the 120-character line width; use cn() with category string arrays.", severity="warn")
+  }
+}

@@ -22,7 +22,7 @@ An existing compatible helper is required: `cn()`, `clsx()`, `classnames()`, `tw
 ## Workflow
 
 1. Confirm that the target is a multi-concern Tailwind value and check the project's line-width convention when deciding whether it is long.
-2. Inspect the project version, prefix, separator, helper signature, merge behavior, and any category-priority convention from package metadata, config, CSS, and plugins. Do not assume v4 when the syntax is unclear.
+2. Inspect the project version, prefix, separator, helper signature, merge behavior, category-priority convention, and configured lint plugins. If no category checker exists, offer a local Biome GritQL or behavior-equivalent ESLint rule; do not add one unless requested. See [lint-plugin-examples.md](references/lint-plugin-examples.md) when implementing enforcement.
 3. Read [utility-categories.md](references/utility-categories.md); read [variants.md](references/variants.md) when variants, arbitrary selectors, or container queries are present.
 4. Parse static tokens without changing them. Ignore the configured separator inside brackets, parentheses, quotes, or escaped sections. Strip prefixes only for classification.
 5. Classify each token using the contract below, then regroup only safe static literals. Preserve dynamic values, conditions, overrides, conflict order, and function shape.

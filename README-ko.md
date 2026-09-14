@@ -52,6 +52,7 @@ Tailwind `className`을 semantic group으로 분류합니다. 동적 값과 conf
 - Tailwind v3/v4 prefix, separator, important 문법
 - state, responsive, arbitrary, container-query variant
 - helper·`cva()` 구조 보존 규칙
+- 카테고리 검증용 로컬 Biome GritQL·ESLint 규칙 예시
 
 [SKILL.md](./skills/tailwind-classname-categorization/SKILL.md)부터 읽습니다.
 </details>
