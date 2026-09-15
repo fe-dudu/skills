@@ -64,4 +64,4 @@ export default defineConfig([
 ]);
 ```
 
-Keep both implementations aligned with [utility-categories.md](utility-categories.md) and [variants.md](variants.md) when the team's category map or priority changes. See ESLint's official [custom-rule guide](https://eslint.org/docs/latest/extend/custom-rules) and [plugin guide](https://eslint.org/docs/latest/extend/plugins).
+Keep both implementations aligned with `utility-categories.md` and `variants.md` when the team's category map or priority changes. See ESLint's official [custom-rule guide](https://eslint.org/docs/latest/extend/custom-rules) and [plugin guide](https://eslint.org/docs/latest/extend/plugins).
