@@ -1,7 +1,7 @@
 {
   "name": "oh-my-frontend",
-  "version": "0.2.0",
-  "description": "Lightweight frontend triage and orchestration for risk classification, project memory, consequential decisions, safe parallel work, and runtime evidence.",
+  "version": "0.3.0",
+  "description": "Frontend triage for project memory, approvals, specialist review, and verification, with parallel delegation when substantial independent lanes pass the gate.",
   "author": {
     "name": "fe-dudu"
   }

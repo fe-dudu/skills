@@ -28,6 +28,8 @@ If the host cannot create or isolate workers, run the work sequentially and repo
 
 ## Parallelization gate
 
+For substantial work, identify possible lanes before doing the work sequentially. When two or more meaningful lanes can start independently and pass the gate below, dispatch workers by default without waiting for an explicit user request. Resolve shared contracts and ownership first. File count alone does not justify a split; keep tightly coupled work with one owner.
+
 All conditions must hold:
 
 - shared API, types, domain terms, and architecture are resolved;
