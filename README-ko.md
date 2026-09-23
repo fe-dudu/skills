@@ -14,7 +14,7 @@ utility category가 섞인 긴 Tailwind `className` 관련 작업에 적용합�
 | 스킬 | 용도 |
 | --- | --- |
 | [frontend-engineering](./skills/frontend-engineering/) | 읽기 쉽고 명확하며 예측 가능한 TypeScript·React 구현 원칙입니다. |
-| [oh-my-frontend](./skills/oh-my-frontend/) | 프론트엔드 triage·위험 기반 orchestration 계층입니다. |
+| [oh-my-frontend](./skills/oh-my-frontend/) | 큰 작업의 독립 lane 병렬 처리와 위험 기반 orchestration을 다루는 프론트엔드 triage입니다. |
 | [tailwind-classname-categorization](./skills/tailwind-classname-categorization/) | 기존 helper를 통한 긴 Tailwind className semantic grouping |
 
 <details>
@@ -31,10 +31,10 @@ utility category가 섞인 긴 Tailwind `className` 관련 작업에 적용합�
 
 <details>
 <summary><strong>oh-my-frontend</strong> — 문서·승인·에이전트 오케스트레이션</summary>
-프론트엔드 task의 triage와 프로젝트 메모리, 승인, 병렬 작업, specialist review, 위험 기반 검증을 담당합니다. 모든 프론트엔드 task가 Level 0 분류를 위해 들어올 수 있지만, 변경 위험이 있을 때만 무거운 workflow를 추가합니다. `frontend-engineering`의 구현 원칙을 대체하지 않습니다.
+프론트엔드 task의 triage와 프로젝트 메모리, 승인, 병렬 작업, specialist review, 검증을 담당합니다. 모든 프론트엔드 task가 Level 0 분류를 위해 들어올 수 있고, 작업 규모나 변경 위험에 따라 필요한 workflow를 추가합니다. `frontend-engineering`의 구현 원칙을 대체하지 않습니다.
 
 - 저장소의 canonical 구조에서 domain language, business rule, feature, decision, architecture를 관리하며, durable 문서 관례가 없을 때만 최소 구조를 추천합니다.
-- 관련 blocking question을 묶고, 필요한 승인, 범위가 제한된 Worker brief, 안전한 병렬 lane을 관리합니다.
+- 관련 blocking question을 묶고, 필요한 승인과 범위가 제한된 Worker brief를 관리하며, 규모가 큰 독립 lane은 기본으로 병렬 할당합니다.
 - Component architecture, UI state, browser·visual verification, accessibility, debugging을 다룹니다.
 - Data fetching, routing, performance, security, responsive UI, form, i18n, compatibility, observability를 라우팅합니다.
 - TDD나 과도한 테스트 코드를 강제하지 않고 위험 기반으로 테스트합니다.

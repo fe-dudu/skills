@@ -16,7 +16,7 @@ only when needed.
 | Skill | Use it for |
 | --- | --- |
 | [frontend-engineering](./skills/frontend-engineering/) | Standalone readable, explicit TypeScript and React implementation rules |
-| [oh-my-frontend](./skills/oh-my-frontend/) | Frontend triage and risk-based orchestration layer |
+| [oh-my-frontend](./skills/oh-my-frontend/) | Frontend triage with scope-based parallel work and risk-based orchestration |
 | [tailwind-classname-categorization](./skills/tailwind-classname-categorization/) | Semantic grouping of long Tailwind className values through existing helpers |
 
 <details>
@@ -35,14 +35,15 @@ Start with [SKILL.md](./skills/frontend-engineering/SKILL.md).
 
 <details>
 <summary><strong>oh-my-frontend</strong> — Documentation, approval, and agent orchestration</summary>
-Frontend task triage and risk-based orchestration for project memory, approval,
-parallel work, specialist review, and verification. It may enter any frontend
-task, exits clear mechanical work at Level 0, and adds workflow only when the
-changed risk requires it. It does not replace `frontend-engineering`
-implementation rules.
+Frontend task triage and orchestration for project memory, approval, parallel
+work, specialist review, and verification. It may enter any frontend task,
+exits clear mechanical work at Level 0, and adds workflow when task scope or
+risk warrants it. It does not replace `frontend-engineering` implementation
+rules.
 
 - Repository-canonical project memory: domain language, business rules, features, decisions, and architecture; recommend a minimal structure only when no durable convention exists
-- Batched blocking questions, focused approval, bounded Worker briefs, and safe parallel lanes
+- Batched blocking questions, focused approval, bounded Worker briefs, and
+  default parallel dispatch for substantial independent lanes
 - Component architecture, UI state, browser/visual verification, accessibility, and debugging
 - Data fetching, routing, performance, security, responsive UI, forms, i18n, compatibility, and observability routing
 - Risk-based testing without mandatory TDD or excessive test code

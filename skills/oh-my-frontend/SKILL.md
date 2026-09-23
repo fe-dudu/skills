@@ -1,18 +1,19 @@
 ---
 name: oh-my-frontend
 description: >
-  Frontend triage and orchestration for implementation, review, refactoring,
-  testing, debugging, UI, architecture, documentation, risk classification,
-  project memory, consequential approval, safe parallel work, and runtime or
-  specialist evidence. Use when working on frontend implementation, review,
-  refactoring, testing, debugging, UI, architecture, or documentation. Classify
-  mechanical work as Level 0 and exit without planning overhead. Use
-  frontend-engineering for TypeScript and React implementation rules.
+  Triage frontend implementation, review, refactoring, testing, debugging, UI,
+  architecture, and documentation. Use when handling those frontend tasks.
+  Route project memory, approvals, verification, and specialist work by risk;
+  delegate substantial independent lanes by default when the parallel-work
+  gate passes. Use frontend-engineering for TypeScript and React implementation
+  rules.
 ---
 
 # Oh My Frontend
 
-Use this as a lightweight coordinator for frontend work. Start by classifying the change. Add questions, project-memory work, workers, and specialist review only when the changed risk requires them.
+Use this as a lightweight coordinator for frontend work. Start by classifying the change. Add questions, project-memory work, and specialist review when the changed risk requires them; dispatch workers when substantial independent lanes pass the parallel-work gate.
+
+Apply this skill under higher-priority instructions. Follow explicit user instructions over this skill's guidance unless a higher-priority instruction or tool restriction conflicts.
 
 Use `frontend-engineering` and framework-specific skills for TypeScript, React, styling, refactoring, and test implementation details.
 
@@ -108,7 +109,10 @@ Read [parallel-work.md](references/parallel-work.md) before dispatching workers.
 - lanes have independent acceptance criteria;
 - files are disjoint or worktrees are isolated;
 - no lane depends on another lane's uncommitted output;
+- integration order is clear;
 - at least two lanes contain enough work to outweigh coordination cost.
+
+For substantial work, actively look for independent lanes before starting sequential implementation. When two or more meaningful lanes pass the gate, dispatch workers by default; do not wait for the user to request parallelism. File count is a signal, not a threshold. Keep tightly coupled work with one owner.
 
 The main agent performs planning, decisions, ownership, integration, and final verification in the current task. Do not create separate Coordinator, Planner, or architect workers. Create a task packet only for two or more mutating lanes, or for long-running work or integration that must resume across turns. A one-owner or one-to-two-file task skips a packet unless the long-running or resume gate applies. Isolated worktrees are a safety mechanism, not a packet trigger.
 

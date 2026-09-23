@@ -540,6 +540,15 @@
             {"type": "contains_any", "values": ["knowledge/", "knowledge", "existing convention", "canonical"], "text": "Respects the repository's existing documentation convention"},
             {"type": "contains_any", "values": ["do not create", "does not create", "not create", "ask"], "text": "Avoids implicit documentation scaffolding"}
           ]
+        },
+        {
+          "id": 19,
+          "prompt": "Implement a moderately sized workspace page with an audit-log panel and a permission editor. The API types and route contract are settled. Each panel has separate acceptance criteria and disjoint component files, and neither depends on the other. Follow existing patterns and complete the work.",
+          "should_trigger": true,
+          "assertions": [
+            {"type": "contains_any", "values": ["dispatch", "delegate", "worker", "subagent", "parallel"], "text": "States it will dispatch substantial independent lanes by default"},
+            {"type": "contains_any", "values": ["assign", "ownership", "worker brief", "separate owners"], "text": "Defines independent lane ownership"}
+          ]
         }
       ]
     }

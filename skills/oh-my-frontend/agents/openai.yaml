@@ -1,7 +1,7 @@
 interface:
   display_name: "Oh My Frontend"
-  short_description: "Lightweight frontend triage and orchestration"
-  default_prompt: "Use $oh-my-frontend to classify frontend work; add planning, approval, workers, and durable docs only when the changed risk requires them."
+  short_description: "Frontend triage with scope-based parallel work"
+  default_prompt: "Use $oh-my-frontend to triage frontend work, dispatch substantial independent lanes when the parallel-work gate passes, and add approval or documentation when risk requires it."
 
 policy:
   allow_implicit_invocation: true

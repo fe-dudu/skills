@@ -50,7 +50,7 @@
     {
       "name": "oh-my-frontend",
       "source": "./skills/oh-my-frontend",
-      "description": "Lightweight frontend triage and orchestration for risk classification, project memory, consequential decisions, safe parallel work, and runtime evidence.",
+      "description": "Frontend triage for project memory, approvals, specialist review, and verification, with parallel delegation when substantial independent lanes pass the gate.",
       "author": {
         "name": "fe-dudu"
       },
